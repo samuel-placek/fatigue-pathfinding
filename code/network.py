@@ -2,29 +2,29 @@ from graph import *
 
 class Network:
     """
-    Class for a network that represents the environment (with length and fatigue on roads). 
+    Class for a network that represents the environment (with length and fatigue on roads).
     """
 
     def __init__(self, roads={}, start=None, end=None):
         """
-        Initializes the network from a dictionary roads. 
+        Initializes the network from a dictionary roads.
 
-        Parameters: 
+        Parameters:
         -----------
         roads: dict
-            A dictionary of the roads as an adjacency list, that is 
+            A dictionary of the roads as an adjacency list, that is
             roads[u] = list of (v, length, fatigue)
-            Ex: roads = {v0: [(v1, 21, 2), (v2, 12, 4)], 
-                        v1: [(v0, 74, 2), (v2, 32, 1)], 
+            Ex: roads = {v0: [(v1, 21, 2), (v2, 12, 4)],
+                        v1: [(v0, 74, 2), (v2, 32, 1)],
                         ...}
-        start, end: 
+        start, end:
             Start and end nodes added as attributes
         """
         self._roads = roads
         self.start = start
         self.end = end
 
-    def __str__(self): 
+    def __str__(self):
         """
         Prints the network as text.
         """
@@ -55,6 +55,10 @@ class Network:
         """
         Builds an object of type Graph from the network, by ignoring the fatigue coefficient. 
         """
-        # TODO: implement the method
-        raise NotImplementedError
+        simple_edges = self._roads
+        for u, l in list(simple_edges.items()):
+            v, length, _ = l
+            simple_edges[u] = (v, length)
+
+        return Graph(simple_edges)
 
