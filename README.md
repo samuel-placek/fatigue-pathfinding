@@ -8,7 +8,7 @@ Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L
 
 Cette première étape du projet se concentre sur la recherche du chemin le plus rapide entre un point de départ et un point d'arrivée, en considérant un environnement où le coefficient de fatigue est nul ($f(e) = 0$).
 
-#### Choix d'implémentation et Architecture
+#### Choix d'implémentation et architecture du programme
 
 Conformément aux spécifications, nous avons structuré le code autour de deux classes principales :
 
@@ -23,4 +23,4 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 #### Pourquoi l'algorithme de Dijkstra ?
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
-#### Compléxité de cette algorithme
+#### Compléxité de l'algorithme
