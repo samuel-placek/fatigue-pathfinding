@@ -1,11 +1,26 @@
-# Emmanuelle Chocron - Samuel Placek
-Projet de Programmation accéléré de 1A 
+# ENSAE 1A - Projet de Programmation 2026 - Emmanuelle Chrocron / Samuel Placek
 
+Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux.
 
 ## Partie 1 - Chemin de temps minimal
 
-### 1.1 - Cas particulier sans fatigue 
+### Partie 1.1 : Cas sans fatigue
 
-On considère dans ce premier paragraphe un network où pour toute arête e, f(e)=0. Il s'agit alors d'un simple graphe pondéré.
-L'idée principale est donc d'utilisé un algortihme de plus court chemin classique : l'algorithme de Dijkstra. 
-Pour cela, on implémenté d'abord dans la classe Network une méthode build_simple_graphe afin de construire le graphe à partir d'un network.
+Cette première étape du projet se concentre sur la recherche du chemin le plus rapide entre un point de départ et un point d'arrivée, en considérant un environnement où le coefficient de fatigue est nul ($f(e) = 0$).
+
+#### Choix d'implémentation et Architecture
+
+Conformément aux spécifications, nous avons structuré le code autour de deux classes principales :
+
+1.  **Classe `Network`** :
+    * Représente l'environnement complet avec les routes, les longueurs et les coefficients de fatigue.
+    * **Méthode ajoutée** : `build_simple_graph()`. Cette méthode transforme permet de construite un graphe, qui est un cas particulier de network où il n'y a pas        de fatigue. Cela permet de se ramener à un problème de graphe pondéré classique.
+
+2.  **Classe `Graph`** :
+    * Représente la structure mathématique du graphe (noeuds et arêtes pondérées).
+    * **Méthode ajoutée** : `shortest_path(start, end)`. Cette méthode implémente l'**algorithme de Dijkstra** qui permet d'obtenir le plus court chemin.
+
+#### Pourquoi l'algorithme de Dijkstra ?
+Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
+
+#### Compléxité de cette algorithme
