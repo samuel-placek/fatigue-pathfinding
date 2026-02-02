@@ -12,11 +12,3 @@ network = Network.from_file(network_file)
 def simple_case(network, start, end):
     graph = Network.build_simple_graph(network)
     return Graph.shortest_path(graph, start, end)
-
-
-small_graph = Network.build_simple_graph(network)
-start, end = "lozere", "saclay"
-
-path, dist = Graph.shortest_path(small_graph, start, end)
-
-print(path, dist)
