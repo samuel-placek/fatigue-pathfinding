@@ -1,4 +1,4 @@
-# ENSAE 1A - Projet de Programmation 2026 - Emmanuelle Chrocron / Samuel Placek
+# ENSAE 1A - Projet de Programmation 2026 - Emmanuelle Chocron / Samuel Placek
 
 Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux.
 
@@ -24,3 +24,4 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
 #### Compléxité de l'algorithme
+
