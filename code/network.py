@@ -51,14 +51,18 @@ class Network:
 
         return cls(roads=roads, start=start, end=end)
 
-    def build_simple_graph(self):
+    def build_simple_graph(self, network=None):
         """
-        Builds an object of type Graph from the network, by ignoring the fatigue coefficient. 
+        Builds an object of type Graph from the class by default, else by an imported network, by ignoring the fatigue coefficient.
         """
-        simple_edges = self._roads
-        for u, l in list(simple_edges.items()):
-            v, length, _ = l
-            simple_edges[u] = (v, length)
+        source = network if network is not None else self
+        simple_edges = {}
+
+        for node, neighbors_list in source._roads.items():
+            new_neighbors = []
+            for neighbor in neighbors_list:
+                v, length, fatigue = neighbor
+                new_neighbors.append((v, length))
+            simple_edges[node] = new_neighbors
 
         return Graph(simple_edges)
-

@@ -18,5 +18,16 @@ class Test_NetworkLoading(unittest.TestCase):
                                           'guichet': [('ensae', 15, 1)],
                                           'saclay': []})
 
+
+class Test_Part1(unittest.TestCase):
+    def test_build_simple_graph(self):
+        network = Network.from_file(NET_DIR / "small.txt")
+        graph = Network.build_simple_graph(self, network)
+        self.assertEqual(graph._edges, {'lozere': [('ensae', 10), ('guichet', 20)],
+                                            'ensae': [('saclay', 45)],
+                                            'guichet': [('ensae', 15)],
+                                            'saclay': []})
+
+
 if __name__ == '__main__':
     unittest.main()
