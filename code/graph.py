@@ -27,6 +27,13 @@ class Graph:
     def __init__(self, edges):
         self._edges = edges
 
+    def __str__(self):
+        '''
+        Prints the graph as text.
+        '''
+        output = f"A graph with {len(self._edges)} nodes and the following adjacency list:\n"
+        return output+self._edges.__str__()
+
     def neighbours(self, node):
         if node not in self._edges:
             return []
