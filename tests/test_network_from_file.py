@@ -31,8 +31,8 @@ class Test_Part1(unittest.TestCase):
     def test_shortest_path(self):
         network = Network.from_file(NET_DIR / "small.txt")
         small_graph = network.build_simple_graph(network)
-        start, end = "lozere", "saclay"
 
+        start, end = "lozere", "saclay"
         path, dist = small_graph.shortest_path(start, end)
 
         self.assertEqual(path, ["lozere", "ensae", "saclay"])
@@ -42,12 +42,18 @@ class TestPart2(unittest.TestCase):
     def test_build_extended_graph(self):
         network = Network.from_file(NET_DIR / "small.txt")
         extended_graph = Network.build_extended_graph(network)
+
+        start, end = "lozere", "saclay"
+        path, time = extended_graph.shortest_path(start, end)
+
         self.assertEqual(extended_graph._edges, {
-                                                'lozere': [(('ensae', 3), 10), (('guichet', 1), 20)],
-                                                'ensae': [(('saclay', 2), 90)],
-                                                'guichet': [(('ensae', 2), 15)],
+                                                'lozere': [('ensae', 10), ('guichet', 20)],
+                                                'ensae': [('saclay', 90)],
+                                                'guichet': [('ensae', 15)],
                                                 'saclay': []
-                                                    })
+                                                })
+        self.assertEqual(path, ['lozere', 'ensae', 'saclay'])
+        self.assertEqual(time, 100)
 
 if __name__ == '__main__':
     unittest.main()

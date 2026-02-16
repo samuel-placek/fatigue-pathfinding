@@ -17,7 +17,7 @@ class Graph:
 
     Methods:
     --------
-    neighbours(self, node):
+    neighbors(self, node):
         Returns the list of all neighbors of a node
 
     shortest_path(self):
@@ -34,7 +34,7 @@ class Graph:
         output = f"A graph with {len(self._edges)} nodes and the following adjacency list:\n"
         return output+self._edges.__str__()
 
-    def neighbours(self, node):
+    def neighbors(self, node):
         if node not in self._edges:
             return []
         return self._edges[node]
@@ -67,7 +67,7 @@ class Graph:
             not_visited.remove(min_node)
             
             # Determination of the best node
-            for neighbour, weight in Graph.neighbours(self, min_node):
+            for neighbour, weight in Graph.neighbors(self, min_node):
                 dist = distances[min_node] + weight
                 
                 if dist < distances[neighbour]:
@@ -87,3 +87,12 @@ class Graph:
 
         path = path[::-1]
         return path, distances[end]
+        
+class GraphImplicit(Graph):
+    def __init__(self, neighbors):
+        self.f = neighbors
+
+    def get_neighbors(self, node):
+        return self.f(node)
+
+

@@ -105,12 +105,37 @@ class Network:
                             visited_states.append(next_state)
                             queue.append(next_state)
 
+            # On crée ensuite une "super arrivée" car on ne connait pas à priori la current fatigue du noeud d'arrivé.
+            # Ainsi pour appeler shortest path de la avec end de la forme end='saclay', il faut créer cette "super arrivée"
+            '''
             final_edges = {state[0] : value for state, value in extended_edges.items()}
-            for l in final_edges.values():
+            for u in final_edges:
                 new_neigh = []
-                for neighboor in new_neigh:
-                    (n, _), t = neighboor
-                    neighboor.append((n, t))
-                final_edges[l] = new_neigh
+                for neighbor in final_edges[u]:
+                    (n, _), t = neighbor
+                    new_neigh.append((n, t))
+                final_edges[u] = new_neigh
+            '''
+            return Graph(extended_edges)
 
-            return Graph(final_edges)
+    def build_implicit_graph(self, network=None):
+        ''' 
+        Builds a function generate_neighbors which gives the neighbors of a selected node
+        '''
+
+        source = network if network is not None else self
+
+        def generate_neighbors(extended_node):
+            u, current_fatigue = extended_node
+            
+            neighbors = []
+            
+            if u in source.roads:
+                for v, length, fatigue in source.roads[u]:
+                    new_fatigue = current_fatigue + fatigue
+                    travel_time = length * current_fatigue
+                    extended_neighbor = (v, new_fatigue)
+                    neighbors.append((extended_neighbor, travel_time))
+            
+            return neighbors
+        return GraphImplicit(generate_neighbors)
