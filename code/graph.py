@@ -50,7 +50,7 @@ class Graph:
         not_visited = list(self._edges.keys())
 
         while not_visited:
-            # Research of the nearest node
+            # Recherche du noeud le plus proche
             min_node = None
             for node in not_visited:
                 if min_node is None:
@@ -58,7 +58,7 @@ class Graph:
                 elif distances[node] < distances[min_node]:
                     min_node = node
 
-            # Extreme cases : either the program is done or can not be finished
+            # Cas extrême : soit le porgramme est finis ou alors ne peut pas finir
             if min_node == end:
                 break
             if distances[min_node] == float('inf'):
@@ -66,7 +66,7 @@ class Graph:
                 
             not_visited.remove(min_node)
             
-            # Determination of the best node
+            # Détermination du meilleur noeud 
             for neighbour, weight in Graph.neighbors(self, min_node):
                 dist = distances[min_node] + weight
                 
@@ -74,7 +74,7 @@ class Graph:
                     distances[neighbour] = dist
                     predecessors[neighbour] = min_node
 
-        # Reconstruction of the shortest path
+        # Reconstruction du chemin optimal
         path = []
         current_node = end
         

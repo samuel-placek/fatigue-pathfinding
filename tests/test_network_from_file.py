@@ -43,17 +43,22 @@ class TestPart2(unittest.TestCase):
         network = Network.from_file(NET_DIR / "small.txt")
         extended_graph = Network.build_extended_graph(network)
 
-        start, end = "lozere", "saclay"
+        start, end = ("lozere", 1), ("saclay", 0)
         path, time = extended_graph.shortest_path(start, end)
 
         self.assertEqual(extended_graph._edges, {
-                                                'lozere': [('ensae', 10), ('guichet', 20)],
-                                                'ensae': [('saclay', 90)],
-                                                'guichet': [('ensae', 15)],
-                                                'saclay': []
-                                                })
-        self.assertEqual(path, ['lozere', 'ensae', 'saclay'])
-        self.assertEqual(time, 100)
+                                                ('lozere', 1): [(('lozere', 0), 0), (('ensae', 3), 10), (('guichet', 1), 20)],
+                                                ('lozere', 0): [],
+                                                ('ensae', 3): [(('ensae', 0), 0), (('saclay', 3), 135)],
+                                                ('ensae', 0): [],
+                                                ('guichet', 1): [(('guichet', 0), 0), (('ensae', 2), 15)],
+                                                ('guichet', 0): [],
+                                                ('saclay', 3): [(('saclay', 0), 0)],
+                                                ('saclay', 0): [],
+                                                ('ensae', 2): [(('ensae', 0), 0), (('saclay', 2), 90)],
+                                                ('saclay', 2): [(('saclay', 0), 0)]})
+        self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
+        self.assertEqual(time, 125)
 
 if __name__ == '__main__':
     unittest.main()

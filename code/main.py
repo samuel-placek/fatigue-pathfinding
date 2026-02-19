@@ -32,18 +32,8 @@ def implicit_graph(network, start, end):
     graph = Network.build_implicit_graph(network)
     return Graph.shortest_path(graph, start, end)
 
-graph = Network.build_implicit_graph(network)
-#print(graph)
-
-'''
-extended_graph(network, "lozere", "saclay")
-graph = Network.build_extended_graph(network)
-
-#print(graph)
-
-print(extended_graph(network, "lozere", "saclay"))
-'''
 
 graph = Network.build_extended_graph(network)
+print(graph.shortest_path(("lozere", 1), ("saclay", 0)))
 
-print(graph)
+#print(graph)

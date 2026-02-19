@@ -94,28 +94,28 @@ class Network:
                     if current_state not in extended_edges:
                         # Eviter d'avoir une erreur dans le cas où current_state n'est pas encore une clé du dictionnaire
                         extended_edges[current_state] = []
+                    '''
+                    On crée des 'super arrivées' afin de pouvoir appeler la fonction shortest_path avec des éléments connus,
+                    par exemple, le time et la fatigue sont inconnus si on ne plonge pas dans le programme, on construit donc
+                    des sommets d'arrivée de la forme (u, 0) car c'est plus pratique
+                    '''
+                    super_node = (u, 0)
+                    if current_state != super_node:
+                        extended_edges[current_state].append((super_node, 0))
+                        if super_node not in extended_edges:
+                            extended_edges[super_node] = []
 
-                    for v, length, fatigue_cost in source._roads[u]:
-                        new_fatigue = current_fatigue + fatigue_cost
-                        travel_time = length * current_fatigue
-                        next_state = (v, new_fatigue)
-                        extended_edges[current_state].append((next_state, travel_time))
-                        
-                        if next_state not in visited_states:
-                            visited_states.append(next_state)
-                            queue.append(next_state)
+                    if u in source._roads:
+                        for v, length, fatigue_cost in source._roads[u]:
+                            new_fatigue = current_fatigue + fatigue_cost
+                            travel_time = length * current_fatigue
+                            next_state = (v, new_fatigue)
+                            extended_edges[current_state].append((next_state, travel_time))
+                            
+                            if next_state not in visited_states:
+                                visited_states.append(next_state)
+                                queue.append(next_state)
 
-            # On crée ensuite une "super arrivée" car on ne connait pas à priori la current fatigue du noeud d'arrivé.
-            # Ainsi pour appeler shortest path de la avec end de la forme end='saclay', il faut créer cette "super arrivée"
-            '''
-            final_edges = {state[0] : value for state, value in extended_edges.items()}
-            for u in final_edges:
-                new_neigh = []
-                for neighbor in final_edges[u]:
-                    (n, _), t = neighbor
-                    new_neigh.append((n, t))
-                final_edges[u] = new_neigh
-            '''
             return Graph(extended_edges)
 
     def build_implicit_graph(self, network=None):
