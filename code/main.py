@@ -1,4 +1,4 @@
-from network import Network
+from network import *
 from graph import Graph
 
 import sys 
@@ -30,11 +30,19 @@ def extended_graph(network, start, end):
 
 def implicit_graph(network, start, end):
     graph = Network.build_implicit_graph(network)
-    return Graph.shortest_path(graph, start, end)
+    return graph.shortest_path(start, end)
 
 
-graph = Network.build_implicit_graph(network)
-print(graph)
+#path, time = implicit_graph(network, ('lozere', 1), ('saclay', 0))
+#print(path, time)
+
+
 #print(graph.shortest_path(("lozere", 1), ("saclay", 0)))
 
 #print(graph)
+
+
+path, _ = implicit_graph(network, ('lozere', 1), ('saclay', 0))
+
+
+Network.draw_network(network, path)

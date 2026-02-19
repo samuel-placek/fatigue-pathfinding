@@ -92,7 +92,7 @@ class GraphImplicit(Graph):
     def __init__(self, neighbors):
         self.f = neighbors
 
-    def get_neighbors(self, node):
+    def neighbors(self, node):
         return self.f(node)
 
 

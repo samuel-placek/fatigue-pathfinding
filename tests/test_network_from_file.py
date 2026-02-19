@@ -60,5 +60,15 @@ class TestPart2(unittest.TestCase):
         self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
         self.assertEqual(time, 125)
 
+    def test_implicit_graph(self):
+        network = Network.from_file(NET_DIR / "small.txt")
+        implicit_graph = Network.build_implicit_graph(network)
+
+        start, end = ("lozere", 1), ("saclay", 0)
+        path, time = implicit_graph.shortest_path(start, end)
+
+        self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
+        self.assertEqual(time, 125)
+
 if __name__ == '__main__':
     unittest.main()

@@ -127,15 +127,60 @@ class Network:
 
         def generate_neighbors(extended_node):
             u, current_fatigue = extended_node
-            
+
+            if current_fatigue == 0: # Cas ou on est sur une super arrivée
+                return []
+
             neighbors = []
             
-            if u in source.roads:
-                for v, length, fatigue in source.roads[u]:
+            super_node = (u, 0)
+            neighbors.append((super_node, 0))
+
+            if u in source._roads:
+                for v, length, fatigue in source._roads[u]:
                     new_fatigue = current_fatigue + fatigue
-                    travel_time = length * current_fatigue
+                    time = length * current_fatigue
                     extended_neighbor = (v, new_fatigue)
-                    neighbors.append((extended_neighbor, travel_time))
+                    neighbors.append((extended_neighbor, time))
             
             return neighbors
         return GraphImplicit(generate_neighbors)
+
+
+    def draw_network(self, path, filename="Représentation du réseau"):
+        import graphviz
+              
+        dot = graphviz.Digraph(comment='Chemin de temps minimal', format='png')
+        dot.attr(rankdir='LR')
+
+        physical_path = [state[0] for state in path]
+        path_edges = set()
+
+        for i in range(len(physical_path) - 1):
+            u = physical_path[i]
+            v = physical_path[i+1]
+            path_edges.add((u, v))
+
+        all_nodes = set(self._roads.keys())
+        for u in self._roads:
+            for v, _, _ in self._roads[u]:
+                all_nodes.add(v)
+
+        for node in all_nodes:
+            if node == self.start:
+                dot.node(str(node), str(node), color='green', style='filled', fillcolor='lightgreen')
+            elif node == self.end:
+                dot.node(str(node), str(node), color='blue', style='filled', fillcolor='lightblue')
+            else:
+                dot.node(str(node), str(node))
+
+        for u in self._roads:
+            for v, length, fatigue_coeff in self._roads[u]:
+                edge_label = f"len = {length}, f = {fatigue_coeff}"
+                if (u, v) in path_edges:
+                    dot.edge(str(u), str(v), label=edge_label, color='red', penwidth='2.5', fontcolor='red')
+                else:
+                    dot.edge(str(u), str(v), label=edge_label)
+
+        dot.render(filename, view=False)
+        print(f"Graphique généré avec succès : {filename}.png")
