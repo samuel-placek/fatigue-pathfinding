@@ -42,20 +42,15 @@ class Graph:
     def shortest_path(self, start, end):
 
         # Initialisation
-        distances = {node: float('inf') for node in self._edges}
-        distances[start] = 0
-        
-        predecessors = {node: None for node in self._edges}
-        
-        not_visited = list(self._edges.keys())
+        distances = {start: 0} 
+        predecessors = {start: None}
+        not_visited = [start]
 
         while not_visited:
             # Recherche du noeud le plus proche
             min_node = None
             for node in not_visited:
-                if min_node is None:
-                    min_node = node
-                elif distances[node] < distances[min_node]:
+                if min_node is None or distances[node] < distances[min_node]:
                     min_node = node
 
             # Cas extrême : soit le porgramme est finis ou alors ne peut pas finir
@@ -67,19 +62,24 @@ class Graph:
             not_visited.remove(min_node)
             
             # Détermination du meilleur noeud 
-            for neighbour, weight in Graph.neighbors(self, min_node):
+            for neighbor, weight in self.neighbors(min_node):
                 dist = distances[min_node] + weight
                 
-                if dist < distances[neighbour]:
-                    distances[neighbour] = dist
-                    predecessors[neighbour] = min_node
+                if neighbor not in distances:
+                    distances[neighbor] = float('inf')
+                    not_visited.append(neighbor)
+
+                if dist < distances[neighbor]:
+                    distances[neighbor] = dist
+                    predecessors[neighbor] = min_node
 
         # Reconstruction du chemin optimal
+
+        if end not in distances or distances[end] == float('inf'):
+            return [], float('inf')
+
         path = []
         current_node = end
-        
-        if distances[end] == float('inf'):
-            return [], float('inf')
 
         while current_node is not None:
             path.append(current_node)
