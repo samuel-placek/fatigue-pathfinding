@@ -154,21 +154,21 @@ class Network:
         dot.attr(rankdir='LR')
 
         physical_path = [state[0] for state in path]
-        path_edges = set()
+        path_edges = []
 
         for i in range(len(physical_path) - 1):
             u = physical_path[i]
             v = physical_path[i+1]
-            path_edges.add((u, v))
+            path_edges.append((u, v))
 
-        all_nodes = set(self._roads.keys())
+        all_nodes = list(self._roads.keys())
         for u in self._roads:
             for v, _, _ in self._roads[u]:
-                all_nodes.add(v)
+                all_nodes.append(v)
 
         for node in all_nodes:
             if node == self.start:
-                dot.node(str(node), str(node), color='green', style='filled', fillcolor='lightgreen')
+                dot.node(str(node), str(node), color='purple', style='filled', fillcolor='plum')
             elif node == self.end:
                 dot.node(str(node), str(node), color='blue', style='filled', fillcolor='lightblue')
             else:
@@ -178,7 +178,7 @@ class Network:
             for v, length, fatigue_coeff in self._roads[u]:
                 edge_label = f"len = {length}, f = {fatigue_coeff}"
                 if (u, v) in path_edges:
-                    dot.edge(str(u), str(v), label=edge_label, color='red', penwidth='2.5', fontcolor='red')
+                    dot.edge(str(u), str(v), label=edge_label, color='hotpink', penwidth='2.5', fontcolor='red')
                 else:
                     dot.edge(str(u), str(v), label=edge_label)
 

@@ -46,6 +46,9 @@ class Graph:
         predecessors = {start: None}
         not_visited = [start]
 
+        # Historique pour l'utilisation de l'oracle
+        historique = []
+
         while not_visited:
             # Recherche du noeud le plus proche
             min_node = None
@@ -53,7 +56,7 @@ class Graph:
                 if min_node is None or distances[node] < distances[min_node]:
                     min_node = node
 
-            # Cas extrême : soit le porgramme est finis ou alors ne peut pas finir
+            # Cas extrême : soit le programme est fini ou alors ne peut pas finir
             if min_node == end:
                 break
             if distances[min_node] == float('inf'):
@@ -61,7 +64,11 @@ class Graph:
                 
             not_visited.remove(min_node)
             
-            # Détermination du meilleur noeud 
+            # Utilisation de l'oracle pour enlever les noeuds Pareto
+            if not self.oracle(min_node, historique):
+                continue
+            
+            # Détermination du meilleur noeud
             for neighbor, weight in self.neighbors(min_node):
                 dist = distances[min_node] + weight
                 
@@ -95,4 +102,12 @@ class GraphImplicit(Graph):
     def neighbors(self, node):
         return self.f(node)
 
-
+    def oracle(self, node, historique):
+        u, fatigue = node
+        
+        for other_node in historique:
+            v, fatigue2 = other_node
+            if u == v and fatigue >= fatigue2:
+                return False 
+            historique.append(node)
+        return True

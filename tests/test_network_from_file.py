@@ -20,6 +20,8 @@ class Test_NetworkLoading(unittest.TestCase):
 
 
 class Test_Part1(unittest.TestCase):
+    # Question 1
+
     def test_build_simple_graph(self):
         network = Network.from_file(NET_DIR / "small.txt")
         graph = Network.build_simple_graph(network)
@@ -38,7 +40,7 @@ class Test_Part1(unittest.TestCase):
         self.assertEqual(path, ["lozere", "ensae", "saclay"])
         self.assertEqual(dist, 55)
     
-class TestPart2(unittest.TestCase):
+    # Question 2
     def test_build_extended_graph(self):
         network = Network.from_file(NET_DIR / "small.txt")
         extended_graph = Network.build_extended_graph(network)
@@ -60,6 +62,7 @@ class TestPart2(unittest.TestCase):
         self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
         self.assertEqual(time, 125)
 
+    # Question 3
     def test_implicit_graph(self):
         network = Network.from_file(NET_DIR / "small.txt")
         implicit_graph = Network.build_implicit_graph(network)
