@@ -1,6 +1,6 @@
 # ENSAE 1A - Projet de Programmation 2026 - Emmanuelle Chocron / Samuel Placek
 
-Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux.
+Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux. 
 
 ## Partie 1 - Chemin de temps minimal
 
