@@ -66,6 +66,7 @@ Plus précisément:
 
 Pour cela, nous nous sommes appuyés sur la librairie graphviz.
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
+
 Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue)v pour le temps.
 
 
