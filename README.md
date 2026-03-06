@@ -42,3 +42,17 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
 #### Compléxité de l'algorithme
 
+
+### Partie 1.3 : 
+
+
+
+### Bonus: 
+
+
+
+
+
+
+
+
