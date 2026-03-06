@@ -51,6 +51,7 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
 Pour cela, nous nous sommes appuyés sur la librairie graphviz.
+Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
 
 
 
