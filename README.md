@@ -41,15 +41,25 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
    L'intérêt d'avoir construit jsute avant un graphe étendu est de pouvoir utiliser la fonction `shortest_path(self, start, end)`exactement comme elle a été implémentée en 1.1. La méthode est donc la même, la seule différence est qu'ici on appelle `shortest_path` avec un graphe étendu et non un graphe simple.
    
 
-#### Compléxité de l'algorithme
+#### Compléxité de l'algorithme:
 
 
 ### Partie 1.3 : Amélioration la solution précédente en ne créant que la partie nécessaire du graphe étendu.
 Etant donné que `shortest_path` a uniquement besoin d’avoir accès aux voisins d’un noeud à chaque fois que le noeud est visité, il faut donc simplement que la méthode neighbours fonctionne. 
 Pour ce faire, nous avons créé une sous-classe de la classe Graph,appelée GraphImplicit, qui prend en argument non pas une liste d’arêtes mais une fonction qui peut retourner les arêtes à partir d’un noeud.Nous avons fait le choix de le faire de façon générique (i.e nous avons implémenté la sous-classe GraphImplicit dans le module graph et odans le module network nous avons mis une méthode qui construit
 le graphe implicite pour un réseau donné). En effet, GraphImplicit étant de type graph, cela nous paraisssait plus cohérent de le mettre dans Graph.
+Plus précisément: 
+1. Dans la classe Graph: GraphImplicit est une sous-classe représentant un graphe implicite c'est-à-dire un graphe dont les nœuds ne sont pas tous listés à l'avance, mais générés à la volée via une fonction neighbors.Les nœuds sont des tuples (u, fatigue) représentant un état. 
+ Parti pris : représentation implicite, adaptée aux graphes très grands voire potentiellement infinis.
 
-1. Dans la classe 
+3. Dans la classe Network: `build_implicit_graph(self, network=None)` construit un graphe implicite d'états étendus (nœud, fatigue). On a choisi de ne pas énumérer tous les états à l'avance la fonction generate_neighbors les génère à la demande) 
+    
+    Paramètre network=none : permet d'utiliser un réseau routier externe plutôt que self. Ceci permet une plus grande flexibilité : utile pour tester ou composer plusieurs graphes sans modifier la classe.
+   Dans `generate_neighbors`, chaque nœud est un état étendu (position, fatigue accumulée) et le fait que la fatigue soit encodée dans le nœud permet de traiter le poblème comme un simple parcours de graphe.
+
+
+#### Compléxité de l'algorithme:
+
 
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
