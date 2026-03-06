@@ -36,7 +36,7 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
    Dernière remarque sur cette fonction : ce que nous avons appelé super_node constituent des nœuds d'arrivée canoniques. Comme la fatigue à l'arrivée est imprévisible (elle dépend du chemin emprunté), on crée un nœud "collecteur" (u, 0) vers lequel tous les états (u, *) convergent gratuitement (coût 0). Cela permet d'appeler shortest_path(start, (destination, 0)) sans connaître la fatigue finale.
 
-2. 
+2. On reprend la fonction `shortest_path(self, start, end)`: 
    
 
 #### Compléxité de l'algorithme
