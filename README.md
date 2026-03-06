@@ -34,9 +34,10 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
    Nous avons fait en sorte que la file queue pilote un parcours en largeur (BFS). En effet, le choix du BFS garantit qu'on explore les états par couches croissantes de fatigue, ce qui est cohérent avec la nature cumulative de la fatigue.
 
-   Dernière remarque sur cette fonction : ce que nous avons appelé super_node constituent des nœuds d'arrivée canoniques. Comme la fatigue à l'arrivée est imprévisible (elle dépend du chemin emprunté), on crée un nœud "collecteur" (u, 0) vers lequel tous les états (u, *) convergent gratuitement (coût 0). Cela permet d'appeler shortest_path(start, (destination, 0)) sans connaître la fatigue finale.
+   Dernière remarque sur cette fonction : ce que nous avons appelé super_node constituent des nœuds d'arrivée canoniques. Comme la fatigue à l'arrivée est imprévisible (elle dépend du chemin emprunté), on crée un nœud "collecteur" (u, 0) vers lequel tous les états
+   (u, *) convergent gratuitement (coût 0). Cela permet d'appeler shortest_path(start, (destination, 0)) sans connaître la fatigue finale.
 
-2. On reprend la fonction `shortest_path(self, start, end)` dans la classe `Graph`:
+3. On reprend la fonction `shortest_path(self, start, end)` dans la classe `Graph`:
    L'intérêt d'avoir construit jsute avant un graphe étendu est de pouvoir utiliser la fonction `shortest_path(self, start, end)`exactement comme elle a été implémentée en 1.1. La méthode est donc la même, la seule différence est qu'ici on appelle `shortest_path` avec un graphe étendu et non un graphe simple.
    
 
