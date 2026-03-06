@@ -44,14 +44,21 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 #### Compléxité de l'algorithme
 
 
-### Partie 1.3 : 
-
+### Partie 1.3 : Amélioration la solution précédente en ne créant que la partie nécessaire du graphe étendu.
+Etant donné que `shortest_path` a uniquement besoin d’avoir accès aux voisins d’un noeud à chaque fois que le noeud est visité, il faut donc simplement que la méthode neighbours fonctionne. 
+Pour ce faire, nous avons créé une sous-classe de la classe Graph,appelée GraphImplicit, qui prend en argument non pas une liste d’arêtes mais une fonction qui peut retourner les arêtes à partir d’un noeud. Notez qu’il est possible de le faire de façon générique (on mettra alors typiquement la sous-
+classe GraphImplicit dans le module graph et on mettra dans le module network une méthode qui construit
+le graphe implicite pour un réseau donné); ou alors de le faire de façon spécifique pour notre cas (on pourra
+alors mettre la sous-classe GraphImplicit dans le module network et donner à son constructeur une instance
+de Network).
+’ai pris la méthode générique psk ça me paressais plus logique tu veux construire un graph implicite ça va être un truc de type graph donc tu met ça dans graph
 
 
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
 Pour cela, nous nous sommes appuyés sur la librairie graphviz.
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
+Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue)v pour le temps.
 
 
 
