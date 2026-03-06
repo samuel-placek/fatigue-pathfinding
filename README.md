@@ -52,9 +52,7 @@ Plus précisément:
 1. Dans la classe Graph: GraphImplicit est une sous-classe représentant un graphe implicite c'est-à-dire un graphe dont les nœuds ne sont pas tous listés à l'avance, mais générés à la volée via une fonction neighbors.Les nœuds sont des tuples (u, fatigue) représentant un état. 
  Parti pris : représentation implicite, adaptée aux graphes très grands voire potentiellement infinis.
 
-2. Dans la classe Network: `build_implicit_graph(self, network=None)` construit un graphe implicite d'états étendus (nœud, fatigue). On a choisi de ne pas énumérer tous les états à l'avance la fonction generate_neighbors les génère à la demande). 
-    
-    Paramètre network=none : permet d'utiliser un réseau routier externe plutôt que self. Ceci permet une plus grande flexibilité : utile pour tester ou composer plusieurs graphes sans modifier la classe.
+2. Dans la classe Network: `build_implicit_graph` construit un graphe implicite d'états étendus (nœud, fatigue). On a choisi de ne pas énumérer tous les états à l'avance la fonction generate_neighbors les génère à la demande). 
    
    Dans `generate_neighbors`, chaque nœud est un état étendu (position, fatigue accumulée) et le fait que la fatigue soit encodée dans le nœud permet de traiter le poblème comme un simple parcours de graphe.
 
