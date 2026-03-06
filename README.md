@@ -29,7 +29,7 @@ Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs 
 ### Partie 1.2 : Cas avec fatigue
 On considère maintenant le cas général. Il s'agit alors de chercher un plus court chemin dans un graphe étendu. Pour cela, nous avons d'abord représenter le graphe étendu dans la classe Graph. Une fois ce graphe étendu crée, il est possible de réutiliser l'algortihme de Dijskstra codé à la question précèdente. 
 
-1. Fonction `build_extended_graph' dans la classe `Network`:
+1. Fonction `build_extended_graph` dans la classe `Network`:
    Le principe clé est le suivant : chaque nœud du graphe original u devient une paire (u, fatigue) dans le graphe étendu. Cela permet de modéliser le fait que passer par le même carrefour avec une fatigue différente n'est pas la même situation.
 
    Nous avons fait en sorte que la file queue pilote un parcours en largeur (BFS). En effet, le choix du BFS garantit qu'on explore les états par couches croissantes de fatigue, ce qui est cohérent avec la nature cumulative de la fatigue.
@@ -47,7 +47,9 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
 
 
-### Bonus: 
+### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
+
+Pour cela, nous nous sommes appuyés sur la librairie graphviz.
 
 
 
