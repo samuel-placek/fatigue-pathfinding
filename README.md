@@ -49,6 +49,7 @@ Etant donné que `shortest_path` a uniquement besoin d’avoir accès aux voisin
 Pour ce faire, nous avons créé une sous-classe de la classe Graph,appelée GraphImplicit, qui prend en argument non pas une liste d’arêtes mais une fonction qui peut retourner les arêtes à partir d’un noeud.Nous avons fait le choix de le faire de façon générique (i.e nous avons implémenté la sous-classe GraphImplicit dans le module graph et odans le module network nous avons mis une méthode qui construit
 le graphe implicite pour un réseau donné). En effet, GraphImplicit étant de type graph, cela nous paraisssait plus cohérent de le mettre dans Graph.
 
+1. Dans la classe 
 
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
