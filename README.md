@@ -32,7 +32,7 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 1. Fonction `build_extended_graph':
    Le principe clé est le suivant : chaque nœud du graphe original u devient une paire (u, fatigue) dans le graphe étendu. Cela permet de modéliser le fait que passer par le même carrefour avec une fatigue différente n'est pas la même situation.
 
-   Nous avons fait en sorte que la file queue pilote un parcours en largeur (BFS). En effet,
+   Nous avons fait en sorte que la file queue pilote un parcours en largeur (BFS). En effet, le choix du BFS garantit qu'on explore les états par couches croissantes de fatigue, ce qui est cohérent avec la nature cumulative de la fatigue.
    
 
 #### Compléxité de l'algorithme
