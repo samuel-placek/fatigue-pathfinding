@@ -1,4 +1,5 @@
-# ENSAE 1A - Projet de Programmation 2026 - Emmanuelle Chocron / Samuel Placek
+# ENSAE 1A - Projet de Programmation 2026
+# Emmanuelle Chocron - Samuel Placek
 
 Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux. 
 
@@ -23,7 +24,7 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 #### Pourquoi l'algorithme de Dijkstra ?
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
-### Complexité de l'algorithme de Dijsktra:
+## Complexité de l'algorithme :
 
 
 ### Partie 1.2 : Cas avec fatigue
@@ -66,6 +67,30 @@ Pour cela, nous nous sommes appuyés sur la librairie graphviz.
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
 
 Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue)v pour le temps.
+
+
+## Partie 2 -  Améliorations algorithmiques
+
+### Partie 2.1 : Méthode de prunning
+
+Pour commencer à optimiser notre programme (on va améliorer la méthode de graphe implicite), on va tout d'abord utiliser une méthode dite de "prunning" afin de retirer les noeuds Pareto dominés du graphe : si on atteint un noeud $v$ avec une fatigue $f$ et en un temps $t$ alors qu’on avait déjà atteint $v$ avec une fatigue et un temps inférieurs, alors on peut retirer l’option ($v$, $f$, $t$).
+
+Pour cela, on implémente un "oracle", une fonction qui prend un paramètre un noeud $node$ et qui répond à la question suivante : "Est-ce qu'il est utile de visiter le noeud $node$ ?". Il suffit juste d'acutaliser une liste d'historique qui ajoute à l'historique chaque noeuds qu'on a déjà visité (ceux où l'oracle à dit oui) puis de comparer le noeud qu'on examine à ceux de l'historique. 
+
+Il ne reste alors plus qu'à modifier la méthode `shortest_path` en conséquence.
+
+### Partie 2.2 : Algorithme $A^*$
+
+Avant d'implémenter l'algorithme, il s'agit de déterminer une heuristique adaptée, c'est-à-dire une technique permettant de résoudre le problème plus rapidement. Pour que celle-ci soit admissible, il faut qu'elle ne surestime pas le coût réel pour atteindre la destination, soit ici le temps.
+Or ici, $temps$ = $longueur$ * $fatigue$. Mais la fatigue ne peut qu'augmenter : pour un prochain sommet $e$ on aura $f(e)$ $\ge$ fatigue_actuelle. 
+On doit donc minimiser la longueur pour atteindre l'arrivée et alors on aura $t_{min}$ = $l_{min}$ * fatigue_actuelle.
+
+Pour cela, on utilise la graphe simple (le graphe sans fatigue) pour déterminer $l_{min}$ la distance entre le noeud et l'arrivée avec la méthode de Djikstra.
+Cependant, la complexité sera lourde si on applique l'algorithme à chaque noeud pour avoir $l_{min}$. C'est pourquoi on va réimplémenter Djikstra à l'envers : on va appeler l'algorithme sur le sommet d'arrivée et cela va nous renvoyer un dictionnaire simple_dist de la forme { $node$ : $l$ } où $l$ est la distance entre le noeud $node$ et l'arrivée. Ainsi, on aura par un seul appel à Djikstra un dictionnaire contenant toute les distances nécessaires. 
+
+Finalement, pour implémenter l'algorithme $A^*$, il suffit de reprendre la méthode `shortest_path` sauf que pour chosir le prochain sommet min_node, on ne va pas choisir celui qui minimime la distance mais celui qui minimise la quantité $distance$ + $heuristique$
+
+
 
 
 
