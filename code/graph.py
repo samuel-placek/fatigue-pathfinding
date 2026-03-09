@@ -65,8 +65,8 @@ class Graph:
             not_visited.remove(min_node)
             
             # Utilisation de l'oracle pour enlever les noeuds Pareto
-            if not self.oracle(min_node, historique):
-                continue
+            if not self.oracle(min_node, historique): # SI on n'a pas besoin d'examiner le noeud, on le saute
+                continue 
             
             # Détermination du meilleur noeud
             for neighbor, weight in self.neighbors(min_node):
@@ -109,5 +109,12 @@ class GraphImplicit(Graph):
             v, fatigue2 = other_node
             if u == v and fatigue >= fatigue2:
                 return False 
-            historique.append(node)
+        historique.append(node)
         return True
+
+    def heuristic(self, node, distances_simples, end_physique): # distances_simples : dict des distances physiques précalculées vers l'arrivée
+        u, fatigue = node
+        if fatigue == 0 or u == end_physique:
+            return 0
+        dist_min = distances_simples[(u, 0)]
+        return fatigue * dist_min
