@@ -1,0 +1,16 @@
+// Chemin de temps minimal
+digraph {
+	rankdir=LR
+	lozere [label=lozere color=purple fillcolor=plum style=filled]
+	ensae [label=ensae]
+	guichet [label=guichet]
+	saclay [label=saclay color=blue fillcolor=lightblue style=filled]
+	ensae [label=ensae]
+	guichet [label=guichet]
+	saclay [label=saclay color=blue fillcolor=lightblue style=filled]
+	ensae [label=ensae]
+	lozere -> ensae [label="len = 10, f = 2"]
+	lozere -> guichet [label="len = 20, f = 0" color=hotpink fontcolor=red penwidth=2.5]
+	ensae -> saclay [label="len = 45, f = 0" color=hotpink fontcolor=red penwidth=2.5]
+	guichet -> ensae [label="len = 15, f = 1" color=hotpink fontcolor=red penwidth=2.5]
+}

@@ -31,13 +31,10 @@ def implicit_graph(network, start, end):
     graph = Network.build_implicit_graph(network)
     return graph.shortest_path(start, end)
 
-def show_network(network):
-    path, _ = implicit_graph(network, ('lozere', 1), ('saclay', 0))
+def show_network(network, end): # end est le nom du noeud de fin, qui sera sous la forme (end, 0) en super sommet
+    path, _ = implicit_graph(network, ('lozere', 1), (end, 0))
     network.draw_network(path)
 
-#show_network(network)
-
-print(implicit_graph(network, ('lozere', 1), ('saclay', 0)))
 
 # Partie 2
 
