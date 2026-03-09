@@ -24,7 +24,7 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 #### Pourquoi l'algorithme de Dijkstra ?
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
-### Complexité de l'algorithme de Dijsktra:
+## Complexité de l'algorithme :
 
 
 ### Partie 1.2 : Cas avec fatigue
