@@ -56,10 +56,9 @@ class Network:
         Builds an object of type Graph from the class by default, else by an imported network, 
         by ignoring the fatigue coefficient.
         """
-        source = network if network is not None else self
         simple_edges = {}
 
-        for node, neighbors_list in source._roads.items():
+        for node, neighbors_list in self._roads.items():
             new_neighbors = []
             for neighbor in neighbors_list:
                 v, length, fatigue = neighbor
