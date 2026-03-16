@@ -75,7 +75,7 @@ Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) a
 
 Pour commencer à optimiser notre programme (on va améliorer la méthode de graphe implicite), on va tout d'abord utiliser une méthode dite de "prunning" afin de retirer les noeuds Pareto dominés du graphe : si on atteint un noeud $v$ avec une fatigue $f$ et en un temps $t$ alors qu’on avait déjà atteint $v$ avec une fatigue et un temps inférieurs, alors on peut retirer l’option ($v$, $f$, $t$).
 
-Pour cela, on implémente un "oracle", une fonction qui prend un paramètre un noeud $node$ et qui répond à la question suivante : "Est-ce qu'il est utile de visiter le noeud $node$ ?". Il suffit juste d'acutaliser une liste d'historique qui ajoute à l'historique chaque noeuds qu'on a déjà visité (ceux où l'oracle à dit oui) puis de comparer le noeud qu'on examine à ceux de l'historique. 
+Pour cela, on implémente un "oracle", une fonction qui prend un paramètre un noeud $node$ et qui répond à la question suivante : "Est-ce qu'il est utile de visiter le noeud $node$ ?". Il suffit juste d'acutaliser une liste d'historique qui ajoute a l'historique chaque noeuds qu'on a déjà visité (ceux où l'oracle à dit oui) puis de comparer le noeud qu'on examine à ceux de l'historique. 
 
 Il ne reste alors plus qu'à modifier la méthode `shortest_path` en conséquence.
 
