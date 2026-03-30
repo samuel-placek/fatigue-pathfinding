@@ -17,7 +17,13 @@ NET_DIR = ROOT / "examples"
 network_file = "/home/onyxia/work/Emmanuelle-Chocron---Samuel-Placek/examples/small.txt"
 network = Network.from_file(NET_DIR / "small.txt")
 
+print(GraphImplicit.reversed_dijkstra(network, "saclay"))
+
+'''
+A enelever avant le rendu final !!!!
 print(answers.simple_case(network, "lozere", "saclay"))
+'''
+
 # Choix du mode de lancement
 
 MODE = int(input("Que voulez vous lancer ? tests (1) ou exécution de fonction (2) ? "))
@@ -30,7 +36,7 @@ if MODE == 2: # Exécution de fonctions
 
     while not (hasattr(answers, fc) and callable(getattr(answers, fc))): # On regarde si la fonction existe
         print("Cette fonction n'existe pas. Veuillez réessayer.")
-        fc = input("Quelle fonction voulez vous lancer ? (ALL) pour l'exécution totale. ")
+        fc = input("Quelle fonction voulez vous lancer ? ")
     
     fonction_a_lancer = getattr(answers, fc)
     signature = inspect.signature(fonction_a_lancer)
@@ -66,4 +72,5 @@ if MODE == 2: # Exécution de fonctions
                     
             arguments_fournis[nom_param] = valeur_convertie
 
-    fonction_a_lancer(**arguments_fournis)
+    resultat = fonction_a_lancer(**arguments_fournis)
+    print(f"\n Résultat renvoyé par la fonction : {resultat}")

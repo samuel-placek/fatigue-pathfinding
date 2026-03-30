@@ -8,6 +8,7 @@ def simple_case(network, start, end):
     graph = Network.build_simple_graph(network)
     return Graph.shortest_path(graph, start, end)
 
+
 # 1.2 - Implémentation d'un graphe étendu de manière moins optimale pour considérer la faitgue
 def extended_graph(network, start, end):
     graph = Network.build_extended_graph(network)
