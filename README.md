@@ -78,6 +78,7 @@ Pour commencer à optimiser notre programme (on va améliorer la méthode de gra
 Pour cela, on implémente un "oracle", une fonction qui prend un paramètre un noeud $node$ et qui répond à la question suivante : "Est-ce qu'il est utile de visiter le noeud $node$ ?". Il suffit juste d'acutaliser une liste d'historique qui ajoute a l'historique chaque noeuds qu'on a déjà visité (ceux où l'oracle à dit oui) puis de comparer le noeud qu'on examine à ceux de l'historique. 
 
 Il ne reste alors plus qu'à modifier la méthode `shortest_path` en conséquence.
+Pour ne pas entrer en conflit avec les parties précédentes, comme on ne fait que travailler avec le graphe implicit, on crée une nouvelle méthode `shortest_path` de la classe `GraphImplicit` qui utilise l'oracle
 
 ### Partie 2.2 : Algorithme $A^*$
 
