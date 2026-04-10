@@ -5,18 +5,18 @@ from graph import *
 
 # 1.1 - Cas d'un network sans aucune fatigue, ie d'un graphe
 def simple_case(network, start, end):
-    graph = Network.build_simple_graph(network)
-    return Graph.shortest_path(graph, start, end)
+    graph = network.build_simple_graph(network)
+    return graph.shortest_path(graph, start, end)
 
 
 # 1.2 - Implémentation d'un graphe étendu de manière moins optimale pour considérer la faitgue
 def extended_graph(network, start, end):
-    graph = Network.build_extended_graph(network)
-    return Graph.shortest_path(graph, start, end)
+    graph = network.build_extended_graph(network)
+    return graph.shortest_path(graph, start, end)
 
 # 1.3 - Création du graphe étendu en utilisant une méthode implicite
 def implicit_graph(network, start, end):
-    graph = Network.build_implicit_graph(network)
+    graph = network.build_implicit_graph(network)
     return graph.shortest_path(start, end)
 
 def show_network(network, end): # end est le nom du noeud de fin, qui sera sous la forme (end, 0) en super sommet
@@ -27,3 +27,17 @@ def show_network(network, end): # end est le nom du noeud de fin, qui sera sous 
 # Partie 2
 
 # 2.1 - Suppression des noeuds Pareto dominés : méthode de "prunning"
+
+# 2.2 - Algorithme A*
+def algo_a_star(network, start, end):
+    def chercher_voisins(noeud):
+        return network._roads.get(noeud, []) 
+        
+    graph = GraphImplicit(chercher_voisins)
+    distances_simples = graph.reversed_dijkstra(end)
+    fatigue_initiale = 0
+    chemin, cout_total = graph.a_star(start, end, fatigue_initiale, distances_simples)
+    if chemin is None:
+        return "Destination non atteignable"
+    else:
+        return chemin, cout_total

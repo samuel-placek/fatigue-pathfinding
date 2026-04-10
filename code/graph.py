@@ -224,21 +224,21 @@ class GraphImplicit(Graph):
         start_node = (start, fatigue_initiale)
         open_set = []
         
-        h_start = self.heuristic(start_node, distances_simples, end)
-        heapq.heappush(open_set, (h_start, start_node))
+        h_start = self.heuristic(start_node, distances_simples, end) 
+        heapq.heappush(open_set, (h_start, start_node)) # Trie automatiquement selon l'ordre h_start puis start_node en cas d'égalité
         
-        came_from = {}
-        g_score = {start_node: 0}
+        came_from = {} # dictionnaire des prédécesseurs
+        g_score = {start_node: 0} # Représente le coût déjà accumulé depuis le point de départ
         
         while open_set:
             current_f, current_node = heapq.heappop(open_set)
             u_actuel, fatigue_actuelle = current_node
             
-            if u_actuel == end_physique:
+            if u_actuel == end:
                 chemin = [current_node]
-                while current_node in came_from:
+                while current_node in came_from: # On regarde tous les prédécesseurs jusqu'au sommet de départ
                     current_node = came_from[current_node]
-                    chemin.append(current_node)
+                    chemin.append(current_node) # On met le chemin dans le bon sens
                 chemin.reverse()
                 
                 return chemin, g_score[(u_actuel, fatigue_actuelle)]
@@ -256,11 +256,11 @@ class GraphImplicit(Graph):
                 voisin_node = (voisin, nouvelle_fatigue)
                 tentative_g_score = g_score[current_node] + poids
                 
-                if tentative_g_score < g_score.get(voisin_node, float('inf')):
+                if tentative_g_score < g_score.get(voisin_node, float('inf')): # On regarde s'il est rentable d'explorer ce chemin
                     came_from[voisin_node] = current_node
                     g_score[voisin_node] = tentative_g_score
-                    h_score = self.heuristic(voisin_node, distances_simples, end_physique)
-                    f_score = tentative_g_score + h_score
+                    h_score = self.heuristic(voisin_node, distances_simples, end) # Coût estimé jusqu'à l'arrivé
+                    f_score = tentative_g_score + h_score # score total
                     heapq.heappush(open_set, (f_score, voisin_node))
                                  
-        return None, float('inf')
+        return None, float('inf') # On n'atteint pas la destination
