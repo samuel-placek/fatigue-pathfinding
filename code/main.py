@@ -22,14 +22,14 @@ A enelever avant le rendu final !!!!
 print(answers.simple_case(network, "lozere", "saclay"))
 '''
 
-print(answers.algo_a_star(network, "lozere", "saclay"))
+#print(answers.algo_a_star(network, "lozere", "saclay"))
 
 
 
 
 # Choix du mode de lancement
 
-#MODE = int(input("Que voulez vous lancer ? tests (1) ou exécution de fonction (2) ? "))
+MODE = int(input("Que voulez vous lancer ? tests (1) ou exécution de fonction (2) ? "))
 
 if MODE == 1: # Lancement des fonctions de test
     subprocess.run(["python", "-m", "unittest", "tests.test_network_from_file"], cwd=ROOT)

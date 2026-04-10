@@ -11,7 +11,7 @@ def simple_case(network, start, end):
 
 # 1.2 - Implémentation d'un graphe étendu de manière moins optimale pour considérer la faitgue
 def extended_graph(network, start, end):
-    graph = network.build_extended_graph(network)
+    graph = network.build_extended_graph()
     return graph.shortest_path(graph, start, end)
 
 # 1.3 - Création du graphe étendu en utilisant une méthode implicite
@@ -30,14 +30,11 @@ def show_network(network, end): # end est le nom du noeud de fin, qui sera sous 
 
 # 2.2 - Algorithme A*
 def algo_a_star(network, start, end):
-    def chercher_voisins(noeud):
-        return network._roads.get(noeud, []) 
-        
-    graph = GraphImplicit(chercher_voisins)
+    graph = network.build_implicit_graph()
     distances_simples = graph.reversed_dijkstra(end)
-    fatigue_initiale = 0
-    chemin, cout_total = graph.a_star(start, end, fatigue_initiale, distances_simples)
+    chemin, cout = graph.a_star(start, end, 1, distances_simples)
+    
     if chemin is None:
         return "Destination non atteignable"
     else:
-        return chemin, cout_total
+        return chemin, cout

@@ -243,7 +243,7 @@ class GraphImplicit(Graph):
                 
                 return chemin, g_score[(u_actuel, fatigue_actuelle)]
             
-            voisins = self._roads.get(u_actuel, [])
+            voisins = self.neighbors(current_node)
             if isinstance(voisins, dict):
                 liste_dest = voisins.items()
             else:
