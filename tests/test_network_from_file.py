@@ -1,5 +1,6 @@
 import sys 
 from pathlib import Path
+
 ROOT = Path(__file__).parent.parent
 sys.path.append(str(ROOT / "code"))
 
@@ -7,6 +8,7 @@ NET_DIR = ROOT / "examples"
 
 import unittest 
 from network import Network
+from answers import *
 
 class Test_NetworkLoading(unittest.TestCase):
     def test_network_small(self):
@@ -72,6 +74,16 @@ class Test_Part1(unittest.TestCase):
 
         self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
         self.assertEqual(time, 125)
+
+class Test_Part2(unittest.TestCase):
+    def test_algo_a_star(self):
+        network = Network.from_file(NET_DIR / "small.txt")
+        start, end = "lozere", "saclay"
+        path, time = algo_a_star(network, start, end)
+
+        self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
+        self.assertEqual(time, 125)
+
 
 if __name__ == '__main__':
     unittest.main()

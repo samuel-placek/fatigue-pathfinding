@@ -23,7 +23,7 @@ print(answers.simple_case(network, "lozere", "saclay"))
 '''
 
 #print(answers.algo_a_star(network, "lozere", "saclay"))
-2
+
 
 
 

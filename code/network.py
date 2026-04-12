@@ -52,20 +52,17 @@ class Network:
         return cls(roads=roads, start=start, end=end)
 
     def build_simple_graph(self, network=None):
-        """
-        Builds an object of type Graph from the class by default, else by an imported network, 
-        by ignoring the fatigue coefficient.
-        """
-        simple_edges = {}
+            """
+            Builds an object of type Graph from the class by default, else by an imported network,
+            by ignoring the fatigue coefficient.
+            """
+        
+            simple_edges = {
+                node: [(v, length) for v, length, fatigue in voisins] 
+                for node, voisins in self._roads.items()
+            }
 
-        for node, neighbors_list in self._roads.items():
-            new_neighbors = []
-            for neighbor in neighbors_list:
-                v, length, fatigue = neighbor
-                new_neighbors.append((v, length))
-            simple_edges[node] = new_neighbors
-
-        return Graph(simple_edges)
+            return Graph(simple_edges)
 
     def build_extended_graph(self, network=None):
             """
@@ -183,3 +180,32 @@ class Network:
 
         dot.render(filename, view=False)
         print(f"Graphique généré avec succès : {filename}.png")
+
+    def reversed_dijkstra(self, end):
+        routes_inverses = {ville: [] for ville in self._roads.keys()}
+        
+        for origine, destinations in self._roads.items():
+            for destination, poids, fatigue_cost in destinations:
+                if destination in routes_inverses:
+                    routes_inverses[destination].append((origine, poids))
+
+        distances_simples = {ville: float('inf') for ville in self._roads.keys()}
+        distances_simples[end] = 0
+        queue = [(0, end)]
+        visited = set()
+
+        while queue:
+            dist_actuelle, noeud_actuel = heapq.heappop(queue)
+
+            if noeud_actuel in visited:
+                continue
+            visited.add(noeud_actuel)
+
+            for voisin, poids in routes_inverses[noeud_actuel]:
+                nouvelle_dist = dist_actuelle + poids
+                
+                if nouvelle_dist < distances_simples[voisin]:
+                    distances_simples[voisin] = nouvelle_dist
+                    heapq.heappush(queue, (nouvelle_dist, voisin))
+
+        return distances_simples

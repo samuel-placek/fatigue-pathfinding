@@ -8,7 +8,6 @@ def simple_case(network, start, end):
     graph = network.build_simple_graph()
     return graph.shortest_path(start, end)
 
-
 # 1.2 - Implémentation d'un graphe étendu de manière moins naïve pour considérer la faitgue
 def extended_graph(network, start, end):
     graph = network.build_extended_graph()
@@ -19,8 +18,8 @@ def implicit_graph(network, start, end):
     graph = network.build_implicit_graph(network)
     return graph.shortest_path(start, end)
 
-def show_network(network, end): # end est le nom du noeud de fin, qui sera sous la forme (end, 0) en super sommet
-    path, _ = implicit_graph(network, ('lozere', 1), (end, 0))
+def show_network(network, start, end): # end est le nom du noeud de fin, qui sera sous la forme (end, 0) en super sommet
+    path, _ = implicit_graph(network, (start, 1), (end, 0))
     network.draw_network(path)
 
 
@@ -31,7 +30,7 @@ def show_network(network, end): # end est le nom du noeud de fin, qui sera sous 
 # 2.2 - Algorithme A*
 def algo_a_star(network, start, end):
     graph = network.build_implicit_graph()
-    distances_simples = graph.reversed_dijkstra(end)
+    distances_simples = network.reversed_dijkstra(end)
     chemin, cout = graph.a_star(start, end, 1, distances_simples)
     
     if chemin is None:
