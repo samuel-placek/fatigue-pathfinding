@@ -143,7 +143,7 @@ class Network:
         return GraphImplicit(generate_neighbors)
 
 
-    def draw_network(self, path, filename="Représentation du réseau"):
+    def draw_network(self, path, filename):
         import graphviz
               
         dot = graphviz.Digraph(comment='Chemin de temps minimal', format='png')
@@ -179,7 +179,6 @@ class Network:
                     dot.edge(str(u), str(v), label=edge_label)
 
         dot.render(filename, view=False)
-        print(f"Graphique généré avec succès : {filename}.png")
 
     def reversed_dijkstra(self, end):
         routes_inverses = {ville: [] for ville in self._roads.keys()}

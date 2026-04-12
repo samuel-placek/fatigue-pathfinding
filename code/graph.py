@@ -87,12 +87,10 @@ class GraphImplicit(Graph):
 
     def oracle(self, node, historique):
         u, fatigue = node
-        
-        for other_node in historique:
-            v, fatigue2 = other_node
+        for v, fatigue2 in historique:
             if u == v and fatigue2 != 0 and fatigue >= fatigue2:
-                return False          
-        historique.append(node)
+                return False
+        historique.add(node)     
         return True
 
     def shortest_path(self, start, end):
@@ -152,8 +150,6 @@ class GraphImplicit(Graph):
 
             if u_actuel == end:
                 temps_final = g_score[current_node]
-                
-                # Reconstruction du chemin
                 chemin = []
                 curr = current_node
                 while curr in came_from:
@@ -161,17 +157,24 @@ class GraphImplicit(Graph):
                     curr = came_from[curr]
                 chemin.append(curr) # On ajoute le point de départ
                 chemin.reverse()
-                chemin.append((end, 0))
+                super_sommet = (end, 0)
+
+                if chemin[-1] != super_sommet:
+                    chemin.append(super_sommet)
+                    
                 return chemin, temps_final
 
-            # Exploration des voisins
-            for voisin_node, poids in self.neighbors(current_node).items():
+            voisins = self.neighbors(current_node)
+            liste_voisins = voisins.items() if isinstance(voisins, dict) else voisins
+
+            for voisin_node, poids in liste_voisins:
                 tentative_g_score = g_score[current_node] + poids
 
                 if tentative_g_score < g_score.get(voisin_node, float('inf')):
                     came_from[voisin_node] = current_node
                     g_score[voisin_node] = tentative_g_score
-                    f_score = tentative_g_score + self.heuristic(voisin_node, distances_simples, end)
+                    h_score = self.heuristic(voisin_node, distances_simples, end)
+                    f_score = tentative_g_score + h_score
+                    
                     heapq.heappush(open_set, (f_score, voisin_node))
-
         return None, float('inf')
