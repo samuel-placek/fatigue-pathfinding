@@ -24,7 +24,8 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 #### Pourquoi l'algorithme de Dijkstra ?
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
-## Complexité de l'algorithme :
+**Complexité de l'algorithme :**
+
 
 
 ### Partie 1.2 : Cas avec fatigue
@@ -42,7 +43,8 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
    L'intérêt d'avoir construit jsute avant un graphe étendu est de pouvoir utiliser la fonction `shortest_path(self, start, end)`exactement comme elle a été implémentée en 1.1. La méthode est donc la même, la seule différence est qu'ici on appelle `shortest_path` avec un graphe étendu et non un graphe simple.
    
 
-#### Compléxité de l'algorithme:
+**Compléxité de l'algorithme :**
+
 
 
 ### Partie 1.3 : Amélioration la solution précédente en ne créant que la partie nécessaire du graphe étendu.
@@ -63,7 +65,17 @@ Plus précisément:
 
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
-Pour cela, nous nous sommes appuyés sur la librairie graphviz.
+Pour pouvoir générer les images des réseaux, ce projet utilise **Graphviz**. 
+
+Veuillez vous assurer de suivre ces **deux étapes** d'installation avant de lancer le programme :  
+**1. Installer le module Python :**
+`pip install graphviz`
+
+**2. Installer le logiciel système Graphviz :**  
+- **Windows :** Téléchargez l'installateur sur [le site officiel de Graphviz](https://graphviz.org/download/) (Cochez bien la case *"Add Graphviz to the system PATH for all users"* lors de l'installation).
+- **macOS :** `brew install graphviz`
+- **Linux (Ubuntu/Debian) :** `sudo apt-get install graphviz`
+
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
 
 Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue)v pour le temps.
