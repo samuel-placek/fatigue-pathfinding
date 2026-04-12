@@ -70,8 +70,8 @@ class Test_Part1(unittest.TestCase):
         start, end = ("lozere", 1), ("saclay", 0)
         path, time = implicit_graph.shortest_path(start, end)
 
-        self.assertEqual(path, [('lozere', 1), ('ensae', 3), ('saclay', 3), ('saclay', 0)])
-        self.assertEqual(time, 145)
+        self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
+        self.assertEqual(time, 125)
 
 if __name__ == '__main__':
     unittest.main()

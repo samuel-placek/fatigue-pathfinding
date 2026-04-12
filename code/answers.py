@@ -5,14 +5,14 @@ from graph import *
 
 # 1.1 - Cas d'un network sans aucune fatigue, ie d'un graphe
 def simple_case(network, start, end):
-    graph = network.build_simple_graph(network)
-    return graph.shortest_path(graph, start, end)
+    graph = network.build_simple_graph()
+    return graph.shortest_path(start, end)
 
 
-# 1.2 - Implémentation d'un graphe étendu de manière moins optimale pour considérer la faitgue
+# 1.2 - Implémentation d'un graphe étendu de manière moins naïve pour considérer la faitgue
 def extended_graph(network, start, end):
     graph = network.build_extended_graph()
-    return graph.shortest_path(graph, start, end)
+    return graph.shortest_path(start, end)
 
 # 1.3 - Création du graphe étendu en utilisant une méthode implicite
 def implicit_graph(network, start, end):

@@ -101,8 +101,8 @@ class GraphImplicit(Graph):
         
         for other_node in historique:
             v, fatigue2 = other_node
-            if u == v and fatigue >= fatigue2:
-                return False 
+            if u == v and fatigue2 != 0 and fatigue >= fatigue2:
+                return False          
         historique.append(node)
         return True
     
