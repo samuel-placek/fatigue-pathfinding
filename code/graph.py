@@ -40,7 +40,6 @@ class Graph:
             return []
         return self._edges[node]
 
-
     def shortest_path(self, start, end):
         distances = {start: 0}
         predecessors = {start: None}
@@ -79,6 +78,30 @@ class Graph:
 
         
 class GraphImplicit(Graph):
+    """
+    A class representing an implicit graph where nodes and edges are generated on the fly.
+
+    Attributes:
+    -----------
+    f : callable (function)
+        A function that takes a node as input and returns its neighbors. 
+        This function defines the structure of the implicit graph.
+
+    Methods:
+    --------
+    oracle(self, node, historique):
+        Determines if a node should be explored or pruned based on the exploration history.
+
+    shortest_path(self, start, end):
+        Returns the shortest path from the 'start' node to the 'end' node using an optimized Dijkstra method.
+
+    heuristic(self, node, distances_simples, end):
+        Estimates the remaining cost from the current node to the target 'end' to guide the search.
+
+    a_star(self, start, end, fatigue_initiale, distances_simples):
+        Returns the shortest path using the A* algorithm combined with the heuristic evaluation.
+    """
+
     def __init__(self, neighbors):
         self.f = neighbors
 

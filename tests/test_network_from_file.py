@@ -75,6 +75,7 @@ class Test_Part1(unittest.TestCase):
         self.assertEqual(path, [('lozere', 1), ('guichet', 1), ('ensae', 2), ('saclay', 2), ('saclay', 0)])
         self.assertEqual(time, 125)
 
+
 class Test_Part2(unittest.TestCase):
     def test_algo_a_star(self):
         network = Network.from_file(NET_DIR / "small.txt")

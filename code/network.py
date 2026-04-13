@@ -74,10 +74,9 @@ class Network:
                                     ...}
             }
             """
-            source = network if network is not None else self
 
             extended_edges = {}
-            start_state = (source.start, 1) # On est en 'pleine forme' au début : fatigue de 1.
+            start_state = (self.start, 1) # On est en 'pleine forme' au début : fatigue de 1.
             queue = [start_state] # Liste des sommets qu'on devra visiter ensuite
             visited_states = [start_state] # Liste des sommets qu'on a déjà visités pour ne pas répéter
             
@@ -86,7 +85,7 @@ class Network:
                 # On récupère le sommet qu'on a ajouté en premier : système de file
                 u, current_fatigue = current_state
                 
-                if u in source._roads:
+                if u in self._roads:
                     if current_state not in extended_edges:
                         # Eviter d'avoir une erreur dans le cas où current_state n'est pas encore une clé du dictionnaire
                         extended_edges[current_state] = []
@@ -101,8 +100,8 @@ class Network:
                         if super_node not in extended_edges:
                             extended_edges[super_node] = []
 
-                    if u in source._roads:
-                        for v, length, fatigue_cost in source._roads[u]:
+                    if u in self._roads:
+                        for v, length, fatigue_cost in self._roads[u]:
                             new_fatigue = current_fatigue + fatigue_cost
                             travel_time = length * current_fatigue
                             next_state = (v, new_fatigue)
@@ -115,12 +114,14 @@ class Network:
             return Graph(extended_edges)
 
     def build_implicit_graph(self, network=None):
-        ''' 
-        Builds a function generate_neighbors which gives the neighbors of a selected node
-        '''
-
-        source = network if network is not None else self
-
+        """
+        Builds an object of type GraphImplicit based on the current network.
+        
+        This method is used for state-space search (pruning method) to generate 
+        nodes and neighbors on the fly, avoiding full memory allocation for fatigue states.
+        Returns an object of type GraphImplicit.
+        """
+        
         def generate_neighbors(extended_node):
             u, current_fatigue = extended_node
 
@@ -132,8 +133,8 @@ class Network:
             super_node = (u, 0)
             neighbors.append((super_node, 0))
 
-            if u in source._roads:
-                for v, length, fatigue in source._roads[u]:
+            if u in self._roads:
+                for v, length, fatigue in self._roads[u]:
                     new_fatigue = current_fatigue + fatigue
                     time = length * current_fatigue
                     extended_neighbor = (v, new_fatigue)
@@ -144,6 +145,13 @@ class Network:
 
 
     def draw_network(self, path, filename):
+        """
+        Generates a visual representation of the current network using Graphviz.
+        
+        If a specific path is provided, it highlights the corresponding nodes and edges.
+        The resulting graph is saved as an image file on the disk.
+        Returns a string confirming the successful generation of the file.
+        """
         import graphviz
               
         dot = graphviz.Digraph(comment='Chemin de temps minimal', format='png')
@@ -181,6 +189,15 @@ class Network:
         dot.render(filename, view=False)
 
     def reversed_dijkstra(self, end):
+        """
+        Computes the shortest path from all nodes in the network to a target node.
+        
+        This method ignores fatigue constraints to calculate simple distances. 
+        It is primarily used to pre-compute an admissible heuristic for the A* algorithm.
+        Returns a dictionary containing the minimum distance from each node to the end node.
+        
+        Ex : simple_distances = {'lozere': 15, 'orsay': 5, 'saclay': 0, ...}
+        """
         routes_inverses = {ville: [] for ville in self._roads.keys()}
         
         for origine, destinations in self._roads.items():

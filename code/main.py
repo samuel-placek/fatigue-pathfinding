@@ -28,7 +28,7 @@ if MODE == 2: # Exécution de fonctions
     fichier_valide = False
     
     while not fichier_valide:
-        nom_fichier = input("Veuillez entrer le nom du fichier réseau (ex: 'small.txt') : ")
+        nom_fichier = input("\nVeuillez entrer le nom du fichier réseau (ex: 'small.txt') : ")
         chemin_fichier = NET_DIR / nom_fichier
 
         if chemin_fichier.is_file():
@@ -38,11 +38,11 @@ if MODE == 2: # Exécution de fonctions
             print("Erreur : Fichier introuvable.\n")
 
     # Exécution d'une fonction
-    fc = input("Quelle fonction voulez-vous lancer ? ")
+    fc = input("\nQuelle fonction voulez-vous lancer ? ")
 
     while not (hasattr(answers, fc) and callable(getattr(answers, fc))):
         print("Cette fonction n'existe pas. Veuillez réessayer.")
-        fc = input("Quelle fonction voulez-vous lancer ? ")
+        fc = input("\nQuelle fonction voulez-vous lancer ? ")
 
     fonction_a_lancer = getattr(answers, fc)
     signature = inspect.signature(fonction_a_lancer)
@@ -76,4 +76,4 @@ if MODE == 2: # Exécution de fonctions
             arguments_fournis[nom_param] = valeur_convertie
 
     resultat = fonction_a_lancer(**arguments_fournis)
-    print(f"\n Résultat renvoyé par la fonction : {resultat}")
+    print(f"\nRésultat renvoyé par la fonction : {resultat}")
