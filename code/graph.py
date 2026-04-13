@@ -111,6 +111,7 @@ class GraphImplicit(Graph):
     def oracle(self, node, historique):
         u, fatigue = node
         for v, fatigue2 in historique:
+            # Si on trouve un sommet qui n'est pas le super sommet et qui necessite une fatigue moindre, on rejète.
             if u == v and fatigue2 != 0 and fatigue >= fatigue2:
                 return False
         historique.add(node)     
@@ -124,6 +125,8 @@ class GraphImplicit(Graph):
         
         while queue:
             current_dist, min_node = heapq.heappop(queue)
+
+            # on ignore les chemins obsolètes déjà mis à jour
             if current_dist > distances.get(min_node, float('inf')):
                 continue
             if min_node == end:
@@ -171,6 +174,7 @@ class GraphImplicit(Graph):
             current_f, current_node = heapq.heappop(open_set)
             u_actuel, fatigue_actuelle = current_node
 
+            # Cas où l'on atteint l'arrivée
             if u_actuel == end:
                 temps_final = g_score[current_node]
                 chemin = []
@@ -179,7 +183,7 @@ class GraphImplicit(Graph):
                     chemin.append(curr)
                     curr = came_from[curr]
                 chemin.append(curr) # On ajoute le point de départ
-                chemin.reverse()
+                chemin.reverse() # On remet le chemin dans le bon ordre
                 super_sommet = (end, 0)
 
                 if chemin[-1] != super_sommet:
@@ -191,8 +195,10 @@ class GraphImplicit(Graph):
             liste_voisins = voisins.items() if isinstance(voisins, dict) else voisins
 
             for voisin_node, poids in liste_voisins:
+                # On calcule le score du noeud
                 tentative_g_score = g_score[current_node] + poids
 
+                # Si on a trouvé un chemin plus rapide vers ce voisin, on enregistre ce "raccourci" et on met à jour sa priorité (f_score).
                 if tentative_g_score < g_score.get(voisin_node, float('inf')):
                     came_from[voisin_node] = current_node
                     g_score[voisin_node] = tentative_g_score

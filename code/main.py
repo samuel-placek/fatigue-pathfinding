@@ -49,6 +49,7 @@ if MODE == 2: # Exécution de fonctions
 
     arguments_fournis = {}
 
+    # Récupération des arguments à fournir
     if signature.parameters:
         for nom_param, param in signature.parameters.items():
             # On sait déjà qu'on va travailler avec la variable network : inutile de re demander
@@ -75,5 +76,6 @@ if MODE == 2: # Exécution de fonctions
                 valeur_convertie = saisie
             arguments_fournis[nom_param] = valeur_convertie
 
+    # On exécute la fonction avec les arguements voulus 
     resultat = fonction_a_lancer(**arguments_fournis)
     print(f"\nRésultat renvoyé par la fonction : {resultat}")
