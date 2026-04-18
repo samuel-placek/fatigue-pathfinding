@@ -25,10 +25,10 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
 **Complexité de l'algorithme :**
-La compléxité de l'algorithme de Dijkstra avec tas binaire (utilisation de heap dans notre algorithme) est O((n+m)*log(n)) avec n le nombre de sommets et m d'arrêtes. En effet, pour l'extraction du tas, chaque noeud est visité au plus une fois et chaque heappop coûte O(log(n)). Heappop étant appelé au plus n fois, le coût total de l'extraction des tas est O(nlog(n)). Pour les insertions dans le tas, la lige avec heappush est exécutée une fois par arête au maximum. Chaque heappush coûte O(log(n)) et dans le pire cas le tas contient O(m) éléments, donc le coût total de l'insertion dans le tas est O(m*log(n)).
+La compléxité de l'algorithme `shortest_path` (correspondant à Dijkstra avec tas binaire) est O((n+m)*log(n)) avec n le nombre de sommets et m d'arrêtes. En effet, pour l'extraction du tas, chaque noeud est visité au plus une fois et chaque heappop coûte O(log(n)). Heappop étant appelé au plus n fois, le coût total de l'extraction des tas est O(nlog(n)). Pour les insertions dans le tas, la lige avec heappush est exécutée une fois par arête au maximum. Chaque heappush coûte O(log(n)) et dans le pire cas le tas contient O(m) éléments, donc le coût total de l'insertion dans le tas est O(m*log(n)).
 
 ### Partie 1.2 : Cas avec fatigue
-On considère maintenant le cas général. Il s'agit alors de chercher un plus court chemin dans un graphe étendu. Pour cela, nous avons d'abord représenter le graphe étendu dans la classe Graph. Une fois ce graphe étendu crée, il est possible de réutiliser l'algortihme de Dijskstra codé à la question précèdente. 
+On considère maintenant le cas général. Il s'agit alors de chercher un plus court chemin dans un graphe étendu. Pour cela, nous avons d'abord représenté le graphe étendu dans la classe Graph. Une fois ce graphe étendu crée, il est possible de réutiliser l'algortihme de Dijskstra codé à la question précèdente. 
 
 1. Fonction `build_extended_graph` dans la classe `Network`:
    Le principe clé est le suivant : chaque nœud du graphe original u devient une paire (u, fatigue) dans le graphe étendu. Cela permet de modéliser le fait que passer par le même carrefour avec une fatigue différente n'est pas la même situation.
@@ -38,12 +38,12 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
    Dernière remarque sur cette fonction : ce que nous avons appelé super_node constituent des nœuds d'arrivée canoniques. Comme la fatigue à l'arrivée est imprévisible (elle dépend du chemin emprunté), on crée un nœud "collecteur" (u, 0) vers lequel tous les états
    (u, *) convergent gratuitement (coût 0). Cela permet d'appeler shortest_path(start, (destination, 0)) sans connaître la fatigue finale.
 
-3. On reprend la fonction `shortest_path(self, start, end)` dans la classe `Graph`:
+2. On reprend la fonction `shortest_path(self, start, end)` dans la classe `Graph`:
    L'intérêt d'avoir construit jsute avant un graphe étendu est de pouvoir utiliser la fonction `shortest_path(self, start, end)`exactement comme elle a été implémentée en 1.1. La méthode est donc la même, la seule différence est qu'ici on appelle `shortest_path` avec un graphe étendu et non un graphe simple.
    
 
-**Compléxité de l'algorithme :**
-
+**Compléxité de l'algorithme :** Nous avons déjà déterminé la complexité de `shortest_path(self, start, end)` à la question précèdente. Pour 
+`build_extended_graph`:
 
 
 ### Partie 1.3 : Amélioration la solution précédente en ne créant que la partie nécessaire du graphe étendu.
