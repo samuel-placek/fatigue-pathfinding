@@ -66,18 +66,9 @@ Plus précisément:
 
 Pour pouvoir générer les images des réseaux, ce projet utilise **Graphviz**. 
 
-Veuillez vous assurer de suivre ces **deux étapes** d'installation avant de lancer le programme :  
-**1. Installer le module Python :**
-`pip install graphviz`
-
-**2. Installer le logiciel système Graphviz :**  
-- **Windows :** Téléchargez l'installateur sur [le site officiel de Graphviz](https://graphviz.org/download/) (Cochez bien la case *"Add Graphviz to the system PATH for all users"* lors de l'installation).
-- **macOS :** `brew install graphviz`
-- **Linux (Ubuntu/Debian) :** `sudo apt-get install graphviz`
-
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
 
-Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue)v pour le temps.
+Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue) v pour le temps.
 
 
 ## Partie 2 -  Améliorations algorithmiques
