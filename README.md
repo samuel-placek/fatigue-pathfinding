@@ -101,8 +101,9 @@ Cependant, la complexité sera lourde si on applique l'algorithme à chaque noeu
 Finalement, pour implémenter l'algorithme $A^*$, il suffit de reprendre la méthode `shortest_path` sauf que pour chosir le prochain sommet min_node, on ne va pas choisir celui qui minimime la distance mais celui qui minimise la quantité $distance$ + $heuristique$
 
 
-
-
+#### Compléxité de l'algorithme $A^*$:
+La structure de l'algorithme est identique à celle de Dijkstra sur le graphe étendu, avec le coût supplémentaire du calcul du f-score. La boucle principale effectue au plus k extractions du tas, chacune en O(log k), pour un coût total de O(k log k). Pour chaque état extrait, on explore ses voisins via self.neighbors (au plus deg(u) voisins pour un état (u, fatigue))et on effectue pour chacun une insertion dans le tas en O(log k). Le nombre total de voisins explorés sur l'ensemble des itérations est O(m·k/n), ce qui donne un coût total d'insertion de O(m·k/n · log k). La reconstruction du chemin via came_from coûte O(k) au plus.
+La complexité totale est donc : $$O\left(\left(k + \frac{m \cdot k}{n}\right) \log k\right) = O\left(\frac{m \cdot k}{n} \log k\right)$$
 
 
 
