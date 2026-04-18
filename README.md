@@ -62,8 +62,12 @@ Plus précisément:
    Dans `generate_neighbors`, chaque nœud est un état étendu (position, fatigue accumulée) et le fait que la fatigue soit encodée dans le nœud permet de traiter le poblème comme un simple parcours de graphe.
 
 
-#### Compléxité de l'algorithme:
+#### Compléxité de l'algorithme: 
+Pour `build_implicit_graph` : le coût st reporté sur chaque appel à generate_neighbors. Pour un état (u, fatigue), la fonction parcourt la liste des voisins de u dans self._roads, soit deg(u) voisins, et construit la liste correspondante en O(deg(u)). Sur l'ensemble d'une recherche de chemin explorant k états distincts, le coût total des appels à generate_neighbors est :
 
+
+
+ce qui dans le pire cas vaut O(m·k/n). C'est un gain significatif par rapport à build_extended_graph qui coûtait O(k² + m·k) en raison de ses structures de données inadaptées. 
 
 ### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
 
