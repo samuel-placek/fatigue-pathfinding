@@ -25,8 +25,7 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
 **Complexité de l'algorithme :**
-La compléxité de l'algorithme de Dijkstra est O(n^2) avec n le nombre de sommets. En effet pour extraire le minimum, à chaque intération on parcourt tous les sommets puis on trouve la distance minimale. Faire une telle recherche coûte O(n) et comme on la répété pour chacun des n sommets, cela donne O(n^2)
-
+La compléxité de l'algorithme de Dijkstra avec tas binaire (le queue utilisé dans notre algorithme) est O((n+m)*log(n)) avec n le nombre de 
 
 ### Partie 1.2 : Cas avec fatigue
 On considère maintenant le cas général. Il s'agit alors de chercher un plus court chemin dans un graphe étendu. Pour cela, nous avons d'abord représenter le graphe étendu dans la classe Graph. Une fois ce graphe étendu crée, il est possible de réutiliser l'algortihme de Dijskstra codé à la question précèdente. 
