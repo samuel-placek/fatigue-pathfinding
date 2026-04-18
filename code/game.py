@@ -1,6 +1,6 @@
 import random
 
-def game(network):
+def jeu_terminal(network):
     """
     Jeu au tour par tour à deux joueurs sur le réseau.
     Le temps de trajet dépend de la fatigue accumulée au moment du départ.
@@ -118,14 +118,12 @@ def generer_positions_abstraites(sommets):
     """
     positions = {}
     nb = len(sommets)
-    # On calcule la taille de la grille (ex: 4x4 pour 16 sommets)
     colonnes = math.ceil(math.sqrt(nb))
-    lignes = math.ceil(nb / colonnes)
+    lignes = math.ceil(nb / colonnes) if colonnes > 0 else 1
     
-    largeur_cellule = ZONE_CARTE_LARGEUR // colonnes
-    hauteur_cellule = HAUTEUR // lignes
+    largeur_cellule = ZONE_CARTE_LARGEUR // colonnes if colonnes > 0 else ZONE_CARTE_LARGEUR
+    hauteur_cellule = HAUTEUR // lignes if lignes > 0 else HAUTEUR
     
-    # Mélanger les sommets pour un placement aléatoire sur la grille
     sommets_aleatoires = list(sommets)
     random.shuffle(sommets_aleatoires)
     
@@ -133,7 +131,6 @@ def generer_positions_abstraites(sommets):
     for l in range(lignes):
         for c in range(colonnes):
             if index < nb:
-                # Position centrale de la cellule + un petit décalage aléatoire (jitter)
                 x = PANNEAU_LARGEUR + (c * largeur_cellule) + largeur_cellule // 2
                 y = (l * hauteur_cellule) + hauteur_cellule // 2
                 x += random.randint(-largeur_cellule//4, largeur_cellule//4)
@@ -148,7 +145,10 @@ def dessiner_ui(ecran, joueurs, tour_actuel, message_fin):
     pygame.draw.rect(ecran, (240, 240, 240), (0, 0, PANNEAU_LARGEUR, HAUTEUR))
     pygame.draw.rect(ecran, (240, 240, 240), (LARGEUR - PANNEAU_LARGEUR, 0, PANNEAU_LARGEUR, HAUTEUR))
     
-    police = pygame.font.SysFont("Segoe UI", 25)
+    try:
+        police = pygame.font.SysFont("Segoe UI", 25)
+    except:
+        police = pygame.font.Font(None, 30)
     
     for i, j in enumerate(joueurs):
         base_x = 20 if i == 0 else LARGEUR - PANNEAU_LARGEUR + 20
@@ -167,12 +167,16 @@ def dessiner_ui(ecran, joueurs, tour_actuel, message_fin):
             pygame.draw.circle(ecran, couleur, (base_x + 10, 220), 8)
             ecran.blit(police.render("À VOUS !", True, couleur), (base_x + 30, 205))
 
-def jouer_course_abstraite(network):
+def jeu_pygame(network):
     pygame.init()
     ecran = pygame.display.set_mode((LARGEUR, HAUTEUR))
-    pygame.display.set_caption("Network Race - Abstract Mode")
+    pygame.display.set_caption("La Course du Réseau")
     
     villes = list(network._roads.keys())
+    if len(villes) < 2:
+        pygame.quit()
+        return
+
     coords = generer_positions_abstraites(villes)
     
     depart = random.choice(villes)
@@ -197,10 +201,18 @@ def jouer_course_abstraite(network):
             
             if event.type == pygame.MOUSEBUTTONDOWN and not message_fin:
                 mx, my = pygame.mouse.get_pos()
-                for voisin, longueur, f_route in options:
+                
+                for element in options:
+                    if len(element) == 3:
+                        voisin, longueur, f_route = element
+                    else:
+                        voisin, longueur = element[0], element[1]
+                        f_route = 1
+                        
                     vx, vy = coords[voisin]
-                    if math.hypot(mx - vx, my - vy) < 20:
-                        # Calcul du temps selon ta formule
+                    distance_clic = math.hypot(mx - vx, my - vy)
+                    
+                    if distance_clic <= 40: 
                         j_courant["temps"] += longueur * j_courant["fatigue"]
                         j_courant["fatigue"] += f_route
                         j_courant["pos"] = voisin
@@ -208,12 +220,12 @@ def jouer_course_abstraite(network):
                         if voisin == arrivee:
                             j_courant["fini"] = True
                         
-                        # Changement de tour
                         tour_actuel = (tour_actuel + 1) % 2
                         if joueurs[tour_actuel]["fini"] and not all(p["fini"] for p in joueurs):
                              tour_actuel = (tour_actuel + 1) % 2
+                             
+                        break
 
-        # Détection fin de partie
         if all(p["fini"] for p in joueurs) and not message_fin:
             t1, t2 = joueurs[0]["temps"], joueurs[1]["temps"]
             if t1 < t2: message_fin = "JOUEUR 1 GAGNE !"
@@ -225,25 +237,39 @@ def jouer_course_abstraite(network):
         
         # Dessin des routes
         for u, routes in network._roads.items():
-            for v, L, F in routes:
+            for element in routes:
+                v = element[0]
                 pygame.draw.line(ecran, GRIS, coords[u], coords[v], 2)
         
-        # Dessin des sommets
+        # Dessin des sommets avec logique de couleur mise à jour
+        voisins_possibles = [o[0] for o in options] if not j_courant["fini"] else []
+        
         for v, pos in coords.items():
             color = (50, 50, 50)
             radius = 12
+            
+            est_cliquable = v in voisins_possibles
+            
             if v == arrivee:
-                color = (255, 215, 0)
-                radius = 20
-            elif v in [o[0] for o in options] and not j_courant["fini"]:
-                color = (100, 200, 100) # Vert = cliquable
+                if est_cliquable:
+                    color = (0, 220, 0) # Vert vif : Coup gagnant possible !
+                    radius = 25
+                else:
+                    color = (255, 215, 0) # Or : Arrivée normale
+                    radius = 20
+            elif est_cliquable:
+                color = (100, 200, 100) # Vert clair : Option cliquable
+                radius = 16
                 
             pygame.draw.circle(ecran, color, pos, radius)
-            # Nom du sommet
-            fnt = pygame.font.SysFont("Arial", 15)
+            
+            try:
+                fnt = pygame.font.SysFont("Arial", 15)
+            except:
+                fnt = pygame.font.Font(None, 20)
             ecran.blit(fnt.render(str(v), True, NOIR), (pos[0]-10, pos[1]+15))
 
-        # Dessin des voitures (pions)
+        # Dessin des voitures
         for i, j in enumerate(joueurs):
             offset = -15 if i == 0 else 15
             px, py = coords[j["pos"]]
@@ -252,7 +278,10 @@ def jouer_course_abstraite(network):
         dessiner_ui(ecran, joueurs, tour_actuel, message_fin)
         
         if message_fin:
-            fnt_fin = pygame.font.SysFont("Arial", 50, bold=True)
+            try:
+                fnt_fin = pygame.font.SysFont("Arial", 50, bold=True)
+            except:
+                fnt_fin = pygame.font.Font(None, 60)
             txt = fnt_fin.render(message_fin, True, (0, 150, 0))
             ecran.blit(txt, (LARGEUR//2 - txt.get_width()//2, 50))
 

@@ -21,7 +21,7 @@ NET_DIR = ROOT / "examples"
 MODE = None
 while MODE is None:
     try:
-        MODE = int(input("Que voulez vous lancer ? tests (1), exécution de fonction (2) ou le jeu à deux joueurs (3) ? "))
+        MODE = int(input("\nQue voulez vous lancer ? tests (1), exécution de fonction (2) ou le jeu à deux joueurs (3) ? "))
         if MODE not in [1, 2, 3]:
             MODE = None
             print("Format incorrect, la réponse doit être entre 1 et 3\n")
@@ -92,4 +92,8 @@ if MODE == 2 or MODE == 3: # Exécution de fonctions
         print(f"\nRésultat renvoyé par la fonction : {resultat}")
 
     else:
-        jouer_course_abstraite(network)
+        ans = int(input("\nVoulez-vous lancer le jeu dans le temminal (1) ou avec pygame (2) ? "))
+        if ans == 1:
+            jeu_terminal(network)
+        if ans == 2:
+            jeu_pygame(network)
