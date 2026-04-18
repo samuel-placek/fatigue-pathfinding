@@ -7,7 +7,7 @@ Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L
 
 ### Partie 1.1 : Cas sans fatigue
 
-Cette première étape du projet se concentre sur la recherche du chemin le plus rapide entre un point de départ et un point d'arrivée, en considérant un environnement où le coefficient de fatigue est nul ($f(e) = 0$).
+Cette première étape du projet se concentre sur la recherche du chemin le plus rapide entre un point de départ et un point d'arrivée, en considérant un environnement où le coefficient de fatigue est nul ($f(e) = 0$) .
 
 #### Choix d'implémentation et architecture du programme
 
