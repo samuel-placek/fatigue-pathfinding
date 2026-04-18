@@ -65,7 +65,7 @@ Plus précisément:
 #### Compléxité de l'algorithme: 
 Pour `build_implicit_graph` : le coût st reporté sur chaque appel à generate_neighbors. Pour un état (u, fatigue), la fonction parcourt la liste des voisins de u dans self._roads, soit deg(u) voisins, et construit la liste correspondante en O(deg(u)). Sur l'ensemble d'une recherche de chemin explorant k états distincts, le coût total des appels à generate_neighbors est :
 
-
+$$O\left(\sum_{(u,f) \text{ exploré}} \deg(u)\right) = O\left(k \cdot \frac{m}{n}\right)$$
 
 ce qui dans le pire cas vaut O(m·k/n). C'est un gain significatif par rapport à build_extended_graph qui coûtait O(k² + m·k) en raison de ses structures de données inadaptées. 
 
