@@ -42,10 +42,11 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
    L'intérêt d'avoir construit jsute avant un graphe étendu est de pouvoir utiliser la fonction `shortest_path(self, start, end)`exactement comme elle a été implémentée en 1.1. La méthode est donc la même, la seule différence est qu'ici on appelle `shortest_path` avec un graphe étendu et non un graphe simple.
    
 
-**Compléxité de l'algorithme :** Nous avons déjà déterminé la complexité de `shortest_path(self, start, end)` à la question précèdente. Pour 
-`build_extended_graph`: cette fonction explore le graphe étendu via un parcours en largeur (BFS). On note n le nombre de sommets du graphe original, m le nombre d'arêtes, et k le nombre d'états distincts (u, fatigue) explorés.
-La boucle principale s'exécute k fois. À chaque itération, l'opération `queue.pop(0)` décale tous les éléments restants, coûtant O(k) dans le pire des cas et donc O(k²) au total. De plus, la vérification next_state not in visited_states parcourt linéairement une liste pouvant contenir jusqu'à k éléments, et est effectuée une fois par arête étendue, ce qui coûte au total  O(mk). La boucle interne sur les voisins contribue pour O(m·k/n), dominé par O(mk).
-La complexité totale est donc : O(k² + mk)
+**Compléxité de l'algorithme :** Nous avons déjà déterminé la complexité de \texttt{shortest\_path(self, start, end)} à la question précédente. Pour \texttt{build\_extended\_graph} : cette fonction explore le graphe étendu via un parcours en largeur (BFS). On note $n$ le nombre de sommets du graphe original, $m$ le nombre d'arêtes, et $k$ le nombre d'états distincts $(u, \text{fatigue})$ explorés.
+
+La boucle principale s'exécute $k$ fois. À chaque itération, l'opération \texttt{queue.pop(0)} décale tous les éléments restants, coûtant $\mathcal{O}(k)$ dans le pire des cas et donc $\mathcal{O}(k^2)$ au total. De plus, la vérification \texttt{next\_state not in visited\_states} parcourt linéairement une liste pouvant contenir jusqu'à $k$ éléments, et est effectuée une fois par arête étendue, ce qui coûte au total $\mathcal{O}(mk)$. La boucle interne sur les voisins contribue pour $\mathcal{O}(m \cdot k/n)$, dominé par $\mathcal{O}(mk)$.
+
+La complexité totale est donc : $\mathcal{O}(k^2 + mk)$
 
 
 
