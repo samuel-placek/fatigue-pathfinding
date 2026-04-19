@@ -44,14 +44,14 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
 **Compléxité de l'algorithme :** Nous avons déjà déterminé la complexité de `shortest_path(self, start, end)` à la question précèdente. Pour 
 `build_extended_graph`: cette fonction explore le graphe étendu via un parcours en largeur (BFS). On note n le nombre de sommets du graphe original, m le nombre d'arêtes, et k le nombre d'états distincts (u, fatigue) explorés.
-La boucle principale s'exécute k fois. À chaque itération, l'opération queue.pop(0) décale tous les éléments restants, coûtant O(k) dans le pire des cas et donc O(k²) au total. De plus, la vérification next_state not in visited_states parcourt linéairement une liste pouvant contenir jusqu'à k éléments, et est effectuée une fois par arête étendue, ce qui coûte au total  O(mk). La boucle interne sur les voisins contribue pour O(m·k/n), dominé par O(mk).
+La boucle principale s'exécute k fois. À chaque itération, l'opération `queue.pop(0)` décale tous les éléments restants, coûtant O(k) dans le pire des cas et donc O(k²) au total. De plus, la vérification next_state not in visited_states parcourt linéairement une liste pouvant contenir jusqu'à k éléments, et est effectuée une fois par arête étendue, ce qui coûte au total  O(mk). La boucle interne sur les voisins contribue pour O(m·k/n), dominé par O(mk).
 La complexité totale est donc : O(k² + mk)
 
 
 
 ### Partie 1.3 : Amélioration la solution précédente en ne créant que la partie nécessaire du graphe étendu.
 Etant donné que `shortest_path` a uniquement besoin d’avoir accès aux voisins d’un noeud à chaque fois que le noeud est visité, il faut donc simplement que la méthode neighbours fonctionne. 
-Pour ce faire, nous avons créé une sous-classe de la classe Graph,appelée GraphImplicit, qui prend en argument non pas une liste d’arêtes mais une fonction qui peut retourner les arêtes à partir d’un noeud.Nous avons fait le choix de le faire de façon générique (i.e nous avons implémenté la sous-classe GraphImplicit dans le module graph et odans le module network nous avons mis une méthode qui construit
+Pour ce faire, nous avons créé une sous-classe de la classe `Graph`, appelée `GraphImplicit`, qui prend en argument non pas une liste d’arêtes mais une fonction qui peut retourner les arêtes à partir d’un noeud.Nous avons fait le choix de le faire de façon générique (i.e nous avons implémenté la sous-classe GraphImplicit dans le module graph et dans le module network nous avons mis une méthode qui construit
 le graphe implicite pour un réseau donné). En effet, GraphImplicit étant de type graph, cela nous paraisssait plus cohérent de le mettre dans Graph.
 Plus précisément: 
 1. Dans la classe Graph: GraphImplicit est une sous-classe représentant un graphe implicite c'est-à-dire un graphe dont les nœuds ne sont pas tous listés à l'avance, mais générés à la volée via une fonction neighbors.Les nœuds sont des tuples (u, fatigue) représentant un état. 
@@ -69,13 +69,27 @@ $$O\left(\sum_{(u,f) \text{ exploré}} \deg(u)\right) = O\left(k \cdot \frac{m}{
 
 ce qui dans le pire cas vaut O(m·k/n). C'est un gain significatif par rapport à build_extended_graph qui coûtait O(k² + m·k) en raison de ses structures de données inadaptées. 
 
-### Bonus: représentation graphique du graphe et du chemin de temps minimal. 
+### Bonus : représentation graphique du graphe et du chemin de temps minimal. 
 
 Pour pouvoir générer les images des réseaux, ce projet utilise **Graphviz**. 
+Si vous souhaitez utiliser la fonctionnalité de rendu visuel du graphe, vous devez installer `graphviz`.
+
+**1. Installation du paquet Python :**
+Ouvrez votre terminal et exécutez :
+```bash
+pip install graphviz
+```
+
+**2. Installation du logiciel système :**
+Le paquet Python n'est qu'une interface. Le logiciel Graphviz doit être installé sur votre machine :
+
+* **Windows :** Téléchargez l'installateur sur [graphviz.org/download](https://graphviz.org/download/) (lors de l'installation, n'oubliez pas de cocher la case *"Add Graphviz to the system PATH"*).
+* **macOS :** Ouvrez un terminal et tapez `brew install graphviz`
+* **Linux (Ubuntu/Debian) :** Ouvrez un terminal et tapez `sudo apt-get install graphviz`
 
 Nous avons commencé par créer le réseau, puis nous avons calculé le chemin optimal associé via `shortest_path`. Enfin, nous avons généré le graphe mon_reseau.
 
-Nous avons choisi de représenter sur les arêtes le couple (fatigue,longueur) au lieu de (temps) car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue) v pour le temps.
+Nous avons choisi de représenter sur les arêtes le couple ($fatigue$, $longueur$) au lieu de $temps$ car sur la lecture du graphe le choix du plus court chemin pouvait paraître paradoxal du fait de l'absence de coefficient mutiplicateur (i.e la fatigue) $v$ pour le temps.
 
 
 ## Partie 2 -  Améliorations algorithmiques
@@ -105,6 +119,30 @@ Finalement, pour implémenter l'algorithme $A^*$, il suffit de reprendre la mét
 La structure de l'algorithme est identique à celle de Dijkstra sur le graphe étendu, avec le coût supplémentaire du calcul du f-score. La boucle principale effectue au plus k extractions du tas, chacune en O(log k), pour un coût total de O(k log k). Pour chaque état extrait, on explore ses voisins via self.neighbors (au plus deg(u) voisins pour un état (u, fatigue))et on effectue pour chacun une insertion dans le tas en O(log k). Le nombre total de voisins explorés sur l'ensemble des itérations est O(m·k/n), ce qui donne un coût total d'insertion de O(m·k/n · log k). La reconstruction du chemin via came_from coûte O(k) au plus.
 La complexité totale est donc : $$O\left(\left(k + \frac{m \cdot k}{n}\right) \log k\right) = O\left(\frac{m \cdot k}{n} \log k\right)$$
 
+
+## Partie 3 : Extention - Le jeu à deux joueurs
+
+L'objectif est d'atteindre le sommet d'arrivée avec le **temps total le plus faible**. 
+
+Afin de garantir la robustesse du projet et d'offrir une expérience utilisateur optimale, le moteur de jeu a été décliné en deux interfaces distinctes partageant la même logique algorithmique :
+
+### 1. Version Terminal (Mode Console)
+Une implémentation robuste et textuelle, idéale pour les environnements sans interface graphique ou pour le débogage.
+* **Boucle de jeu sécurisée :** Gestion des entrées utilisateur avec vérification stricte des sommets atteignables.
+* **Affichage des états :** Suivi clair des statistiques (Position, Temps, Fatigue) à chaque tour directement dans la console.
+* **Indépendance :** Ne nécessite aucune bibliothèque externe pour fonctionner.
+
+### 2. Version Graphique (Mode Pygame)
+Une interface visuelle interactive et dynamique mettant en valeur le réseau abstrait.
+* **Génération spatiale dynamique :** Les sommets du graphe ne possédant pas de coordonnées géographiques natives, nous avons développé un algorithme de placement sur grille avec décalage aléatoire pour répartir harmonieusement les villes sans chevauchement.
+* **Rendu conditionnel :** Le code couleur du graphe s'adapte en temps réel à l'état du jeu (mise en surbrillance verte des sommets voisins accessibles, sommet d'arrivée coloré en or, décalage visuel des pions pour éviter la superposition).
+
+Si la version Terminal fonctionne nativement avec Python, la version graphique nécessite l'installation de la bibliothèque `pygame`.
+
+Ouvrez votre terminal à la racine du projet et exécutez :
+```bash
+pip install pygame
+```
 
 
 
