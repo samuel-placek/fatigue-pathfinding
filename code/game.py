@@ -1,11 +1,14 @@
 import random
+import pygame
+import sys
+import math
 
 def jeu_terminal(network):
     """
     Jeu au tour par tour à deux joueurs sur le réseau.
     Le temps de trajet dépend de la fatigue accumulée au moment du départ.
     """
-    # 1. Initialisation de la carte (CORRECTION ICI : _roads)
+    # Initialisation de la carte
     villes = list(network._roads.keys())
     if len(villes) < 2:
         print("Erreur : Le réseau est trop petit.")
@@ -15,17 +18,15 @@ def jeu_terminal(network):
     arrivee = random.choice([v for v in villes if v != depart])
 
     print(f"\n{'='*50}")
-    print(f"🏁 LA GRANDE COURSE : {depart} ➔ {arrivee} 🏁")
-    print(f"Règle : Temps de trajet = Longueur de la route × Votre Fatigue")
+    print(f"Objectif : aller de {depart} à {arrivee} ")
     print(f"{'='*50}\n")
 
-    # 2. Initialisation des joueurs
+    # Initialisation des joueurs
     joueurs = {
         "Joueur 1": {"position": depart, "temps": 0, "fatigue": 1, "fini": False, "chemin": [depart]},
         "Joueur 2": {"position": depart, "temps": 0, "fatigue": 1, "fini": False, "chemin": [depart]}
     }
 
-    # 3. Boucle principale du jeu
     # Le jeu tourne tant qu'au moins un joueur n'a pas fini
     while not (joueurs["Joueur 1"]["fini"] and joueurs["Joueur 2"]["fini"]):
         
@@ -34,55 +35,47 @@ def jeu_terminal(network):
                 continue # Ce joueur a déjà gagné/perdu, on passe son tour
 
             print(f"\n{'*'*20} Tour de {nom} {'*'*20}")
-            print(f"📍 Position : {data['position']} | ⏱️ Temps total : {data['temps']} | 🔋 Fatigue actuelle : {data['fatigue']}")
+            print(f"Position : {data['position']} | Temps total : {data['temps']} | Fatigue actuelle : {data['fatigue']}")
             
-            # On récupère les routes possibles (CORRECTION ICI AUSSI : _roads)
+            # On récupère les routes possibles
             options = network._roads.get(data['position'], [])
             
             if not options:
-                print(f"💀 Impasse ! {nom} est bloqué(e) et éliminé(e) de la course.")
+                print(f"Impasse ! {nom} est éliminé")
                 data["fini"] = True
                 data["temps"] = float('inf') # Temps infini car disqualifié
                 continue
 
             print("Routes disponibles :")
-            # On précalcule et affiche les coûts pour aider le joueur
             for i, (voisin, longueur, f_route) in enumerate(options):
-                # LA VRAIE FORMULE MATHÉMATIQUE ICI :
                 temps_trajet = longueur * data['fatigue']
                 nouvelle_fatigue = data['fatigue'] + f_route
                 print(f"  {i+1}. Vers {voisin} (Prendra {temps_trajet}h, Nouvelle fatigue : {nouvelle_fatigue})")
 
-            # 4. Saisie sécurisée
             choix_valide = False
             while not choix_valide:
                 try:
                     choix = int(input(f"Choix (1-{len(options)}) : ")) - 1
                     if 0 <= choix < len(options):
                         choix_valide = True
-                        
-                        # 5. Mise à jour des statistiques
                         voisin_choisi, longueur_choisie, fatigue_choisie = options[choix]
                         
-                        data['temps'] += (longueur_choisie * data['fatigue']) # Temps = L * F
-                        data['fatigue'] += fatigue_choisie                    # Fatigue = F + f
+                        data['temps'] += (longueur_choisie * data['fatigue'])
+                        data['fatigue'] += fatigue_choisie
                         data['position'] = voisin_choisi
                         data['chemin'].append(voisin_choisi)
-                        
-                        print(f"🚗 {nom} roule vers {voisin_choisi}...")
 
-                        # Vérification de la victoire
                         if data['position'] == arrivee:
                             print(f"\n🎉 {nom} est arrivé(e) à destination en {data['temps']} heures !")
                             data['fini'] = True
 
                     else:
-                        print("⚠️ Choix invalide, veuillez entrer un numéro correspondant à une route.")
+                        print("Choix invalide, veuillez entrer un numéro correspondant à une route.")
                 except ValueError:
-                    print("⚠️ Veuillez entrer un chiffre.")
+                    print("Veuillez entrer un chiffre.")
 
     # 6. Fin de partie et Résultats
-    print(f"\n{'='*15} RÉSULTATS FINAUX {'='*15}")
+    print(f"\n{'='*15} RÉSULTATS {'='*15}")
     t1 = joueurs["Joueur 1"]["temps"]
     t2 = joueurs["Joueur 2"]["temps"]
     
@@ -90,16 +83,12 @@ def jeu_terminal(network):
     print(f"Joueur 2 : {t2} heures")
     
     if t1 < t2:
-        print("🏆 LE JOUEUR 1 REMPORTE LA COURSE !")
+        print("Le joueur 1 gagne !")
     elif t2 < t1:
-        print("🏆 LE JOUEUR 2 REMPORTE LA COURSE !")
+        print("Le joueur 1 gagne !")
     else:
-        print("🤝 ÉGALITÉ PARFAITE !")
+        print("Égalité")
 
-import pygame
-import sys
-import math
-import random
 
 # --- CONFIGURATION ---
 LARGEUR, HAUTEUR = 1200, 800

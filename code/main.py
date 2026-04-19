@@ -92,7 +92,7 @@ if MODE == 2 or MODE == 3: # Exécution de fonctions
         print(f"\nRésultat renvoyé par la fonction : {resultat}")
 
     else:
-        ans = int(input("\nVoulez-vous lancer le jeu dans le temminal (1) ou avec pygame (2) ? "))
+        ans = int(input("\nVoulez-vous lancer le jeu dans le terminal (1) ou avec pygame (2) ? "))
         if ans == 1:
             jeu_terminal(network)
         if ans == 2:
