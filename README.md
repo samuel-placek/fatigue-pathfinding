@@ -25,7 +25,7 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 Puisque nous travaillons dans cette partie avec des arêtes ayant des longueurs positives ($l(e) \ge 0$) et sans accumulation de fatigue, le problème se réduit à la recherche d'un plus court chemin dans un graphe pondéré à poids positifs. L'algorithme de Dijkstra est la solution standard la plus efficace pour ce cas de figure.
 
 **Complexité de l'algorithme :**
-La compléxité de l'algorithme `shortest_path` (correspondant à Dijkstra avec tas binaire) est O((n+m)*log(n)) avec n le nombre de sommets et m d'arrêtes. En effet, pour l'extraction du tas, chaque noeud est visité au plus une fois et chaque heappop coûte O(log(n)). Heappop étant appelé au plus n fois, le coût total de l'extraction des tas est O(nlog(n)). Pour les insertions dans le tas, la lige avec heappush est exécutée une fois par arête au maximum. Chaque heappush coûte O(log(n)) et dans le pire cas le tas contient O(m) éléments, donc le coût total de l'insertion dans le tas est O(m*log(n)).
+La compléxité de l'algorithme `shortest_path` (correspondant à Dijkstra avec tas binaire) est O((n+m)log(n)) avec n le nombre de sommets et m d'arrêtes. En effet, pour l'extraction du tas, chaque noeud est visité au plus une fois et chaque heappop coûte O(log(n)). Heappop étant appelé au plus n fois, le coût total de l'extraction des tas est O(nlog(n)). Pour les insertions dans le tas, la lige avec heappush est exécutée une fois par arête au maximum. Chaque heappush coûte O(log(n)) et dans le pire cas le tas contient O(m) éléments, donc le coût total de l'insertion dans le tas est O(m*log(n)).
 
 ### Partie 1.2 : Cas avec fatigue
 On considère maintenant le cas général. Il s'agit alors de chercher un plus court chemin dans un graphe étendu. Pour cela, nous avons d'abord représenté le graphe étendu dans la classe Graph. Une fois ce graphe étendu crée, il est possible de réutiliser l'algortihme de Dijskstra codé à la question précèdente. 
@@ -44,8 +44,8 @@ On considère maintenant le cas général. Il s'agit alors de chercher un plus c
 
 **Compléxité de l'algorithme :** Nous avons déjà déterminé la complexité de `shortest_path(self, start, end)` à la question précèdente. Pour 
 `build_extended_graph`: cette fonction explore le graphe étendu via un parcours en largeur (BFS). On note n le nombre de sommets du graphe original, m le nombre d'arêtes, et k le nombre d'états distincts (u, fatigue) explorés.
-La boucle principale s'exécute k fois. À chaque itération, l'opération queue.pop(0) décale tous les éléments restants, coûtant O(k) dans le pire des cas et donc O(k²) au total. De plus, la vérification next_state not in visited_states parcourt linéairement une liste pouvant contenir jusqu'à k éléments, et est effectuée une fois par arête étendue, ce qui coûte au total  O(m*k). La boucle interne sur les voisins contribue pour O(m·k/n), dominé par O(m*k).
-La complexité totale est donc : O(k² + m*k)
+La boucle principale s'exécute k fois. À chaque itération, l'opération queue.pop(0) décale tous les éléments restants, coûtant O(k) dans le pire des cas et donc O(k²) au total. De plus, la vérification next_state not in visited_states parcourt linéairement une liste pouvant contenir jusqu'à k éléments, et est effectuée une fois par arête étendue, ce qui coûte au total  O(mk). La boucle interne sur les voisins contribue pour O(m·k/n), dominé par O(mk).
+La complexité totale est donc : O(k² + mk)
 
 
 
