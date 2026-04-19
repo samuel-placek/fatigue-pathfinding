@@ -42,6 +42,3 @@ def algo_a_star(network, start, end):
         return "Destination non atteignable"
     else:
         return chemin, cout
-    
-
-# Partie 3 - Extensions 
