@@ -15,7 +15,7 @@ Conformément aux spécifications, nous avons structuré le code autour de deux 
 
 1.  **Classe `Network`** :
     * Représente l'environnement complet avec les routes, les longueurs et les coefficients de fatigue.
-    * **Méthode ajoutée** : `build_simple_graph(self)`. Cette méthode permet de construite un graphe, qui est un cas particulier de network où il n'y a pas de fatigue. Cela permet de se ramener à un problème de graphe pondéré classique.
+    * **Méthode ajoutée** : `build_simple_graph(self)`. Cette méthode permet de construire un graphe, qui est un cas particulier de network où il n'y a pas de fatigue. Cela permet de se ramener à un problème de graphe pondéré classique.
 
 2.  **Classe `Graph`** : 
     * Représente la structure mathématique du graphe (noeuds et arêtes pondérées).
