@@ -108,10 +108,10 @@ Pour ne pas entrer en conflit avec les parties précédentes, comme on ne fait q
 ### Partie 2.2 : Algorithme $A^*$
 
 Avant d'implémenter l'algorithme, il s'agit de déterminer une heuristique adaptée, c'est-à-dire une technique permettant de résoudre le problème plus rapidement. Pour que celle-ci soit admissible, il faut qu'elle ne surestime pas le coût réel pour atteindre la destination, soit ici le temps.
-Or ici, $temps$ = $longueur$ * $fatigue$. Mais la fatigue ne peut qu'augmenter : pour un prochain sommet $e$ on aura $f(e)$ $\ge$ fatigue_actuelle. 
+Or, $temps$ = $longueur$ * $fatigue$. Mais la fatigue ne peut qu'augmenter : pour un prochain sommet $e$ on aura $f(e)$ $\ge$ fatigue_actuelle. 
 On doit donc minimiser la longueur pour atteindre l'arrivée et alors on aura $t_{min}$ = $l_{min}$ * fatigue_actuelle.
 
-Pour cela, on utilise la graphe simple (le graphe sans fatigue) pour déterminer $l_{min}$ la distance entre le noeud et l'arrivée avec la méthode de Djikstra.
+Pour cela, on utilise le graphe simple (le graphe sans fatigue) pour déterminer $l_{min}$ la distance entre le noeud et l'arrivée avec la méthode de Djikstra.
 Cependant, la complexité sera lourde si on applique l'algorithme à chaque noeud pour avoir $l_{min}$. C'est pourquoi on va réimplémenter Djikstra à l'envers : on va appeler l'algorithme sur le sommet d'arrivée et cela va nous renvoyer un dictionnaire simple_dist de la forme { $node$ : $l$ } où $l$ est la distance entre le noeud $node$ et l'arrivée. Ainsi, on aura par un seul appel à Djikstra un dictionnaire contenant toute les distances nécessaires. 
 
 Finalement, pour implémenter l'algorithme $A^*$, il suffit de reprendre la méthode `shortest_path` sauf que pour chosir le prochain sommet min_node, on ne va pas choisir celui qui minimime la distance mais celui qui minimise la quantité $distance$ + $heuristique$
