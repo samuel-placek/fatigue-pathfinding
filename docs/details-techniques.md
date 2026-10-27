@@ -2,7 +2,7 @@
 
 *ENSAE Paris · Projet de programmation de 1re année (2026) · Emmanuelle Chocron & Samuel Placek*
 
-← [Retour au README](../README.fr.md)
+← [Retour au README](../README.fr.md) · 🇬🇧 [English version](technical-details.md)
 
 Ce dépôt contient le code source du projet de programmation 2026 de l'ENSAE. L'objectif est de modéliser le déplacement d'un agent dans un environnement contraint par la fatigue et de trouver des chemins optimaux. 
 
@@ -130,6 +130,8 @@ La complexité totale est donc : $$O\left(\left(k + \frac{m \cdot k}{n}\right) \
 ## Partie 3 : Extension - Le jeu à deux joueurs
 
 L'objectif est d'atteindre le sommet d'arrivée avec le **temps total le plus faible**. 
+
+![Jeu à deux joueurs (version Pygame)](../assets/game.png)
 
 Afin de garantir la robustesse du projet et d'offrir une expérience utilisateur optimale, le moteur de jeu a été décliné en deux interfaces distinctes partageant la même logique algorithmique :
 
