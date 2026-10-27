@@ -49,7 +49,7 @@ code/
 examples/      Réseaux de test : small, medium et large, chacun sans / avec peu / avec beaucoup de fatigue
 tests/         Tests unitaires (unittest et pytest)
 assets/        Images : réseau d'exemple (Graphviz) et capture du jeu
-docs/          Raisonnement détaillé et preuves de complexité
+docs/          Raisonnement détaillé et preuves de complexité (français et anglais)
 ```
 
 ## Lancer le projet
